@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/community/conduct-support.md) | **English**
 
+## How do we collaborate well?
+
+Everyone can ask questions, report bugs and discuss ideas. This page explains **expected behavior**, where developers can find help and how to report vulnerabilities privately. Respectful disagreement is welcome; sharing private information is not.
+
 <!-- section: conduct -->
 ## Conduct
 
