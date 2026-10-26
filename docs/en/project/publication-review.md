@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/project/publication-review.md) | **English**
 
+## Why this checklist?
+
+This list helps prevent **accidental publication of private code, personal data or insufficiently reviewed content**. A checked item records that specific step; it never authorizes making the repository public. **Publication always requires separate explicit owner approval.**
+
 The repository must remain private until every blocker is resolved and the owner
 gives separate explicit publication permission.
 
