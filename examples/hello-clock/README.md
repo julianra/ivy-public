@@ -1,18 +1,24 @@
 # Hello Clock
 
-This standalone example demonstrates four Ivy invariants without using the
-proprietary Core:
+## English
 
-1. a module owns the `example.clock` capability domain;
-2. it provides `example.clock.now`;
-3. a consumer is denied until it receives an exact grant;
-4. revoking that grant takes effect immediately.
-
-Run it from the repository root:
+This standalone example registers a provider and declared consumer, proves
+default denial, grants offer and invocation authority independently, invokes
+`example.clock.now`, then proves immediate revocation. It does not use Core.
 
 ```bash
 cargo run -p ivy-hello-clock
 ```
 
-The `DevelopmentSimulator` is a test harness, not Ivy Core and not a production
-security boundary.
+## Nederlands
+
+Dit zelfstandige voorbeeld registreert een provider en gedeclareerde consumer,
+bewijst default-deny, kent offer- en invocationrechten afzonderlijk toe, roept
+`example.clock.now` aan en bewijst daarna onmiddellijke intrekking. Het gebruikt
+Core niet.
+
+```bash
+cargo run -p ivy-hello-clock
+```
+
+`DevelopmentSimulator` is a test harness / testharnas, not a production security boundary / geen productiesecuritygrens.

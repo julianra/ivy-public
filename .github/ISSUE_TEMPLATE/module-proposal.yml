@@ -1,32 +1,27 @@
-name: Module proposal
-description: Propose a new external or reference module.
+name: Module proposal / Modulevoorstel
+description: Propose an external or reference module. / Stel een externe of referentiemodule voor.
 title: "[Module]: "
 labels: ["area:modules"]
 body:
   - type: input
     id: domain
     attributes:
-      label: Proposed capability domain
+      label: Capability domain / Capabilitydomein
       placeholder: community.example.domain
-    validations:
-      required: true
+    validations: {required: true}
   - type: textarea
     id: responsibility
     attributes:
-      label: Domain responsibility
-      description: What this module owns and explicitly does not own.
-    validations:
-      required: true
+      label: Responsibility and exclusions / Verantwoordelijkheid en uitsluitingen
+    validations: {required: true}
   - type: textarea
     id: capabilities
     attributes:
-      label: Capabilities and consumers
-    validations:
-      required: true
+      label: Capabilities and consumers / Capabilities en consumers
+    validations: {required: true}
   - type: dropdown
     id: distribution
     attributes:
-      label: Intended distribution
-      options: [Open source, Closed source, Paid, Free, Undecided]
-    validations:
-      required: true
+      label: Distribution / Distributie
+      options: [Open source, Closed source / Gesloten bron, Paid / Betaald, Free / Gratis, Undecided / Onbeslist]
+    validations: {required: true}

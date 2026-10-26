@@ -1,16 +1,19 @@
-# Public developer contracts
+# Public developer contracts / Publieke developercontracten
 
-This directory contains the developer-facing, independently usable subset of
-Ivy's contract model.
+## English
 
-- `schemas/module-manifest-v3.schema.json` describes the public manifest subset.
-- `proto/ivy/developer/v1/developer.proto` documents capability declarations and
-  development invocations.
+This is an independently usable subset: the manifest JSON Schema plus developer
+protobuf declarations. It excludes private Core administration, mobile
+authentication, secrets, lifecycle messages and Bridge internals. JSON Schema
+checks structure; the Rust validator adds semantic ownership constraints.
 
-These files intentionally exclude the proprietary Core administration wire
-protocol, mobile authentication, secrets, internal lifecycle messages and
-security-sensitive Bridge implementation details.
+See [the English manifest reference](../docs/en/development/manifest-reference.md).
 
-The Rust validator is authoritative for this preview and performs semantic
-checks that JSON Schema cannot express, including capability-domain ownership
-and command retry declarations.
+## Nederlands
+
+Dit is een onafhankelijk bruikbare subset: het manifest-JSON-schema en publieke
+protobufdeclaraties. Private Core-administratie, mobiele authenticatie, secrets,
+lifecycleberichten en Bridge-internals zijn uitgesloten. JSON Schema controleert
+structuur; de Rust-validator voegt semantische eigendomsregels toe.
+
+Zie [de Nederlandse manifestreferentie](../docs/nl/development/manifest-reference.md).

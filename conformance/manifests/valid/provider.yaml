@@ -1,0 +1,22 @@
+schema_version: 3
+id: example-light
+namespace: community.example.light
+version: 1.2.3-beta.1+build.7
+language: rust
+capability_domains:
+  owns: [example.light]
+capabilities:
+  provides:
+    - id: example.light.status
+      version: 1
+      kind: query
+      schema: schema:example.light.status:v1
+      externally_invocable: false
+    - id: example.light.switch
+      version: 1
+      kind: command
+      schema: schema:example.light.switch:v1
+      retry_semantics: result_replay
+      externally_invocable: false
+  requires: []
+  dynamic_requires: false

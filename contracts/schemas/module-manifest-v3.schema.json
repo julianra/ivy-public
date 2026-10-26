@@ -1,23 +1,47 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://ivy.example.invalid/schemas/module-manifest-v3.schema.json",
-  "title": "Ivy public development module manifest v3",
-  "description": "Developer-facing subset. It is not the complete proprietary Core installation manifest.",
+  "title": "Ivy public development module manifest v3 subset",
+  "description": "Developer-facing subset. This is not the complete proprietary Core installation manifest.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "id", "namespace", "version", "language", "capability_domains", "capabilities"],
+  "required": [
+    "schema_version",
+    "id",
+    "namespace",
+    "version",
+    "language",
+    "capability_domains",
+    "capabilities"
+  ],
   "properties": {
-    "schema_version": {"const": 3},
-    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
-    "namespace": {"type": "string", "pattern": "^[a-z0-9]+(?:[._][a-z0-9]+)*$"},
-    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$"},
-    "language": {"type": "string", "minLength": 1},
+    "schema_version": { "const": 3 },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9+_-]*$"
+    },
     "capability_domains": {
       "type": "object",
       "additionalProperties": false,
       "required": ["owns"],
       "properties": {
-        "owns": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/dottedIdentifier"}}
+        "owns": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/domainIdentifier" }
+        }
       }
     },
     "capabilities": {
@@ -25,36 +49,71 @@
       "additionalProperties": false,
       "required": ["provides", "requires", "dynamic_requires"],
       "properties": {
-        "provides": {"type": "array", "items": {"$ref": "#/$defs/providedCapability"}},
-        "requires": {"type": "array", "items": {"$ref": "#/$defs/requiredCapability"}},
-        "dynamic_requires": {"type": "boolean"}
+        "provides": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/providedCapability" }
+        },
+        "requires": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/requiredCapability" }
+        },
+        "dynamic_requires": { "type": "boolean" }
       }
     }
   },
   "$defs": {
-    "dottedIdentifier": {"type": "string", "pattern": "^[a-z0-9]+(?:[._][a-z0-9]+)+$"},
+    "domainIdentifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)+$"
+    },
+    "capabilityIdentifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*){2,}$"
+    },
+    "schemaReference": {
+      "type": "string",
+      "pattern": "^schema:[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)+:v[1-9][0-9]*$"
+    },
     "providedCapability": {
       "type": "object",
       "additionalProperties": false,
       "required": ["id", "version", "kind", "schema", "externally_invocable"],
       "properties": {
-        "id": {"$ref": "#/$defs/dottedIdentifier"},
-        "version": {"type": "integer", "minimum": 1},
-        "kind": {"enum": ["query", "command"]},
-        "schema": {"type": "string", "pattern": "^schema:"},
-        "retry_semantics": {"enum": ["result_replay", "external_effect_may_repeat", "not_retryable"]},
-        "externally_invocable": {"type": "boolean"}
-      }
+        "id": { "$ref": "#/$defs/capabilityIdentifier" },
+        "version": { "type": "integer", "minimum": 1 },
+        "kind": { "enum": ["query", "command"] },
+        "schema": { "$ref": "#/$defs/schemaReference" },
+        "retry_semantics": {
+          "enum": [
+            "result_replay",
+            "external_effect_may_repeat",
+            "not_retryable"
+          ]
+        },
+        "externally_invocable": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "command" } },
+            "required": ["kind"]
+          },
+          "then": { "required": ["retry_semantics"] },
+          "else": { "not": { "required": ["retry_semantics"] } }
+        }
+      ]
     },
     "requiredCapability": {
       "type": "object",
       "additionalProperties": false,
       "required": ["id", "version", "schema", "required"],
       "properties": {
-        "id": {"$ref": "#/$defs/dottedIdentifier"},
-        "version": {"type": "integer", "minimum": 1},
-        "schema": {"type": "string", "pattern": "^schema:"},
-        "required": {"type": "boolean"}
+        "id": { "$ref": "#/$defs/capabilityIdentifier" },
+        "version": { "type": "integer", "minimum": 1 },
+        "schema": { "$ref": "#/$defs/schemaReference" },
+        "required": { "type": "boolean" }
       }
     }
   }

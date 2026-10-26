@@ -1,0 +1,21 @@
+schema_version: 3
+id: example-clock
+namespace: community.example.clock
+version: 1.0.0
+language: rust
+capability_domains:
+  owns: [example.clock]
+capabilities:
+  provides:
+    - id: example.clock.now
+      version: 1
+      kind: query
+      schema: schema:example.clock.now:v1
+      externally_invocable: false
+    - id: example.clock.now
+      version: 2
+      kind: query
+      schema: schema:example.clock.now:v2
+      externally_invocable: false
+  requires: []
+  dynamic_requires: false

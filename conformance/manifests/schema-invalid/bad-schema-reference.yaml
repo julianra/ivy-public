@@ -1,0 +1,16 @@
+schema_version: 3
+id: example-light
+namespace: community.example.light
+version: 1.0.0
+language: rust
+capability_domains:
+  owns: [example.light]
+capabilities:
+  provides:
+    - id: example.light.status
+      version: 1
+      kind: query
+      schema: arbitrary-uri
+      externally_invocable: false
+  requires: []
+  dynamic_requires: false

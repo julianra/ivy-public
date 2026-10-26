@@ -1,20 +1,11 @@
-# Security policy
+# Security
 
-This private launch candidate does not yet accept public vulnerability reports.
-Before publication, ANWOR must configure a monitored private reporting channel
-and GitHub private vulnerability reporting where available.
+Do not disclose suspected vulnerabilities in a public issue. While this
+repository remains private, contact the repository owner through GitHub. A
+monitored private reporting channel is required before launch.
 
-Do not disclose suspected vulnerabilities in public issues, discussions, pull
-requests or chat rooms. Include affected version, reproduction steps, impact and
-any known mitigation in a private report.
+- [English publication and security review](docs/en/development/publication-security.md)
+- [Nederlandse publicatie- en securityreview](docs/nl/development/publication-security.md)
 
-## Scope
-
-The only code in this repository is experimental Developer Kit code. It is not
-production Core. Development signing keys and signatures are deliberately
-incompatible in purpose with official release trust.
-
-## Supported versions
-
-No version is currently supported for production use. Security-fix support and
-response targets must be decided before public launch.
+Development signing is not an official ANWOR signature and the simulator is not
+a production security boundary.

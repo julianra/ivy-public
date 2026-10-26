@@ -1,13 +1,13 @@
-# Planned Discussion categories
+# Planned Discussion categories / Geplande Discussion-categorieën
 
-Configure these categories before public launch:
+Configure before launch / Configureer vóór lancering:
 
-- Announcements — maintainer-only project news;
-- Q&A — support and development questions;
-- Ideas — exploratory product ideas;
-- Module Proposals — capability/domain proposals;
-- Show and Tell — community-built integrations;
-- RFC Discussions — architecture and compatibility review.
+- Announcements / Aankondigingen — maintainer-only project news;
+- Q&A / Vraag en antwoord — support and development questions;
+- Ideas / Ideeën — exploratory proposals;
+- Module Proposals / Modulevoorstellen — domain and capability proposals;
+- Show and Tell / Toon en vertel — community integrations;
+- RFC Discussions / RFC-discussies — architecture review.
 
-Discussion category configuration is a GitHub repository setting; these notes do
-not create the categories automatically.
+This file does not create GitHub categories / Dit bestand maakt de categorieën
+niet automatisch aan.

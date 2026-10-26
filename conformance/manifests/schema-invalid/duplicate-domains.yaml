@@ -1,0 +1,8 @@
+schema_version: 3
+id: example-clock
+namespace: community.example.clock
+version: 1.0.0
+language: rust
+capability_domains:
+  owns: [example.clock, example.clock]
+capabilities: {provides: [], requires: [], dynamic_requires: false}

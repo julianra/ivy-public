@@ -20,8 +20,19 @@ jobs:
       - run: cargo clippy --workspace --all-targets -- -D warnings
       - run: cargo test --workspace --locked
       - run: cargo run -p ivy-cli -- validate examples/hello-clock/module.yaml
+      - name: Verify generated manifest
+        run: |
+          ivy_generator_tmp="$(mktemp -d)"
+          cargo run -p ivy-cli -- new "$ivy_generator_tmp/generated" --id generated-clock --namespace community.generated.clock
+          cargo run -p ivy-cli -- validate "$ivy_generator_tmp/generated/module.yaml"
       - run: cargo run -p ivy-hello-clock
       - run: cargo run -p ivy-widget-preview -- examples/hello-clock/widget.json --output /tmp/widget-preview.html
+
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check_docs.py
 
   dart:
     runs-on: ubuntu-latest

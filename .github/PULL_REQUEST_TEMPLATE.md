@@ -1,21 +1,22 @@
-## Summary
+## Summary / Samenvatting
 
-Describe the narrowly scoped change and why it belongs in the public Developer Kit.
+Describe the bounded public change and its purpose. / Beschrijf de afgebakende
+publieke wijziging en het doel.
 
-## Contract and authority impact
+## Contract and authority / Contract en bevoegdheid
 
-- [ ] No capability, authority, trust or compatibility boundary changes.
-- [ ] Boundary changes were discussed in an RFC (link below).
+- [ ] No authority or compatibility boundary changes. / Geen wijziging aan bevoegdheids- of compatibiliteitsgrenzen.
+- [ ] Boundary changes have an RFC link. / Grenswijzigingen hebben een RFC-link.
 
-## Verification
+## Verification / Verificatie
 
 - [ ] `./scripts/check.sh`
-- [ ] Negative/failure behavior is tested.
-- [ ] Documentation status is accurate.
-- [ ] No private Ivy source, secrets, personal data or internal infrastructure.
-- [ ] Third-party origins and licences are documented.
+- [ ] Failure behaviour is tested. / Faalgedrag is getest.
+- [ ] Both documentation languages are updated. / Beide documentatietalen zijn bijgewerkt.
+- [ ] No private source, secrets, personal data or internal infrastructure. / Geen private broncode, secrets, persoonsgegevens of interne infrastructuur.
+- [ ] Third-party origins and licences are documented. / Herkomst en licenties van derden zijn gedocumenteerd.
 
-## Licensing
+## Licensing / Licenties
 
-I have read `LICENSES.md` and understand that final contribution terms remain a
-publication blocker until approved by ANWOR.
+I read `LICENSES.md`; final contribution terms remain unapproved. / Ik las
+`LICENSES.md`; definitieve bijdragevoorwaarden zijn nog niet goedgekeurd.

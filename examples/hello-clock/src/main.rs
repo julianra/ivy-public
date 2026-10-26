@@ -10,20 +10,24 @@ const CONSUMER: &str = "example-dashboard";
 
 fn main() -> Result<()> {
     let manifest = parse_manifest_yaml(include_str!("../module.yaml"))?;
+    let consumer = parse_manifest_yaml(include_str!("../consumer.yaml"))?;
     let mut handlers = BTreeMap::new();
     handlers.insert(CAPABILITY.into(), clock_handler());
 
     let mut simulator = DevelopmentSimulator::default();
     simulator.register(&manifest, handlers)?;
+    simulator.register(&consumer, BTreeMap::new())?;
 
     println!("provider: {}", simulator.provider_for(CAPABILITY).unwrap());
     show_denied(simulator.invoke(CONSUMER, CAPABILITY, "{}"));
-    simulator.grant(CONSUMER, CAPABILITY)?;
+    simulator.grant_offer("hello-clock", CAPABILITY)?;
+    show_denied(simulator.invoke(CONSUMER, CAPABILITY, "{}"));
+    simulator.grant_consumer(CONSUMER, CAPABILITY)?;
     println!(
         "after grant: {}",
         simulator.invoke(CONSUMER, CAPABILITY, "{}")?
     );
-    simulator.revoke(CONSUMER, CAPABILITY);
+    simulator.revoke_consumer(CONSUMER, CAPABILITY);
     show_denied(simulator.invoke(CONSUMER, CAPABILITY, "{}"));
     Ok(())
 }
@@ -40,7 +44,9 @@ fn clock_handler() -> Handler {
 
 fn show_denied(result: Result<String, InvocationError>) {
     match result {
-        Err(InvocationError::AccessDenied { .. }) => println!("default deny: access refused"),
+        Err(InvocationError::OfferDenied { .. } | InvocationError::ConsumerDenied { .. }) => {
+            println!("default deny: access refused")
+        }
         other => panic!("expected access denial, got {other:?}"),
     }
 }
@@ -52,21 +58,28 @@ mod tests {
     #[test]
     fn grant_is_required_and_revocation_is_immediate() {
         let manifest = parse_manifest_yaml(include_str!("../module.yaml")).unwrap();
+        let consumer = parse_manifest_yaml(include_str!("../consumer.yaml")).unwrap();
         let mut handlers = BTreeMap::new();
         handlers.insert(CAPABILITY.into(), clock_handler());
         let mut simulator = DevelopmentSimulator::default();
         simulator.register(&manifest, handlers).unwrap();
+        simulator.register(&consumer, BTreeMap::new()).unwrap();
 
         assert!(matches!(
             simulator.invoke(CONSUMER, CAPABILITY, "{}"),
-            Err(InvocationError::AccessDenied { .. })
+            Err(InvocationError::OfferDenied { .. })
         ));
-        simulator.grant(CONSUMER, CAPABILITY).unwrap();
-        assert!(simulator.invoke(CONSUMER, CAPABILITY, "{}").is_ok());
-        simulator.revoke(CONSUMER, CAPABILITY);
+        simulator.grant_offer("hello-clock", CAPABILITY).unwrap();
         assert!(matches!(
             simulator.invoke(CONSUMER, CAPABILITY, "{}"),
-            Err(InvocationError::AccessDenied { .. })
+            Err(InvocationError::ConsumerDenied { .. })
+        ));
+        simulator.grant_consumer(CONSUMER, CAPABILITY).unwrap();
+        assert!(simulator.invoke(CONSUMER, CAPABILITY, "{}").is_ok());
+        simulator.revoke_consumer(CONSUMER, CAPABILITY);
+        assert!(matches!(
+            simulator.invoke(CONSUMER, CAPABILITY, "{}"),
+            Err(InvocationError::ConsumerDenied { .. })
         ));
     }
 }

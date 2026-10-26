@@ -1,8 +1,14 @@
-# Ivy developer contracts for Dart
+# Ivy developer contracts for Dart / Ivy-developercontracten voor Dart
 
-Small, dependency-free Dart types for tooling and UI prototypes. This package
-does not include the private mobile authentication protocol or generated Core
-wire types.
+## English
+
+Dependency-free public development types for tooling and UI prototypes. Private
+mobile authentication and Core wire types are deliberately absent.
+
+## Nederlands
+
+Dependencyvrije publieke developmenttypes voor tooling en UI-prototypes. Private
+mobiele authenticatie en Core-wiretypes ontbreken bewust.
 
 ```bash
 dart pub get

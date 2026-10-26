@@ -1,0 +1,8 @@
+schema_version: 3
+id: example-light
+namespace: community.example.light
+version: 1.0.0
+language: rust
+unexpected: true
+capability_domains: {owns: []}
+capabilities: {provides: [], requires: [], dynamic_requires: false}

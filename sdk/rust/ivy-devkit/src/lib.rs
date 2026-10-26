@@ -25,27 +25,21 @@ pub struct ModuleManifest {
     pub namespace: String,
     pub version: String,
     pub language: String,
-    #[serde(default)]
     pub capability_domains: CapabilityDomains,
-    #[serde(default)]
     pub capabilities: Capabilities,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct CapabilityDomains {
-    #[serde(default)]
     pub owns: Vec<String>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Capabilities {
-    #[serde(default)]
     pub provides: Vec<ProvidedCapability>,
-    #[serde(default)]
     pub requires: Vec<RequiredCapability>,
-    #[serde(default)]
     pub dynamic_requires: bool,
 }
 
@@ -58,7 +52,6 @@ pub struct ProvidedCapability {
     pub schema: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub retry_semantics: Option<RetrySemantics>,
-    #[serde(default)]
     pub externally_invocable: bool,
 }
 
@@ -68,7 +61,6 @@ pub struct RequiredCapability {
     pub id: String,
     pub version: u32,
     pub schema: String,
-    #[serde(default)]
     pub required: bool,
 }
 
@@ -106,23 +98,35 @@ pub fn validate_manifest(manifest: &ModuleManifest) -> Result<(), ManifestError>
     if !valid_module_id(&manifest.id) {
         problems.push("id must use lowercase ASCII letters, digits and hyphens".into());
     }
-    if !valid_dotted_identifier(&manifest.namespace) {
-        problems.push("namespace must be a dotted lowercase identifier".into());
+    if !valid_namespace(&manifest.namespace) {
+        problems
+            .push("namespace must contain at least two dot-separated lowercase segments".into());
     }
     if Version::parse(&manifest.version).is_err() {
         problems.push("version must be valid semantic versioning".into());
     }
-    if manifest.language.trim().is_empty() {
-        problems.push("language must not be empty".into());
+    if !valid_language_id(&manifest.language) {
+        problems.push(
+            "language must use lowercase ASCII letters, digits, plus, hyphen or underscore".into(),
+        );
     }
 
     let mut domains = BTreeSet::new();
     for domain in &manifest.capability_domains.owns {
-        if !valid_dotted_identifier(domain) {
+        if !valid_domain_id(domain) {
             problems.push(format!("invalid capability domain: {domain}"));
         }
         if !domains.insert(domain) {
             problems.push(format!("duplicate capability domain: {domain}"));
+        }
+    }
+    for (index, domain) in manifest.capability_domains.owns.iter().enumerate() {
+        for other in manifest.capability_domains.owns.iter().skip(index + 1) {
+            if domains_overlap(domain, other) {
+                problems.push(format!(
+                    "overlapping capability domains in one manifest are forbidden: {domain} and {other}"
+                ));
+            }
         }
     }
 
@@ -137,7 +141,7 @@ pub fn validate_manifest(manifest: &ModuleManifest) -> Result<(), ManifestError>
         }
         if !domains
             .iter()
-            .any(|domain| capability.id.starts_with(&format!("{domain}.")))
+            .any(|domain| is_descendant_of(&capability.id, domain))
         {
             problems.push(format!(
                 "provided capability {} is outside the module's owned domains",
@@ -150,7 +154,13 @@ pub fn validate_manifest(manifest: &ModuleManifest) -> Result<(), ManifestError>
                 capability.id
             ));
         }
-        if !capability.schema.starts_with("schema:") {
+        if capability.kind == CapabilityKind::Query && capability.retry_semantics.is_some() {
+            problems.push(format!(
+                "query {} must not declare retry_semantics",
+                capability.id
+            ));
+        }
+        if !valid_schema_reference(&capability.schema) {
             problems.push(format!("{} has an invalid schema reference", capability.id));
         }
     }
@@ -164,7 +174,7 @@ pub fn validate_manifest(manifest: &ModuleManifest) -> Result<(), ManifestError>
         if !required.insert(&capability.id) {
             problems.push(format!("duplicate required capability: {}", capability.id));
         }
-        if !capability.schema.starts_with("schema:") {
+        if !valid_schema_reference(&capability.schema) {
             problems.push(format!("{} has an invalid schema reference", capability.id));
         }
     }
@@ -177,7 +187,7 @@ pub fn validate_manifest(manifest: &ModuleManifest) -> Result<(), ManifestError>
 }
 
 fn validate_capability_id(id: &str, problems: &mut Vec<String>) {
-    if !valid_dotted_identifier(id) || id.split('.').count() < 3 {
+    if !valid_segmented_identifier(id, 3) {
         problems.push(format!("invalid capability id: {id}"));
     }
 }
@@ -191,14 +201,56 @@ fn valid_module_id(value: &str) -> bool {
             .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
 }
 
-fn valid_dotted_identifier(value: &str) -> bool {
-    value.split('.').all(|segment| {
-        !segment.is_empty()
-            && !segment.starts_with('_')
-            && segment
-                .bytes()
-                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'_')
-    })
+fn valid_language_id(value: &str) -> bool {
+    value.as_bytes().first().is_some_and(u8::is_ascii_lowercase)
+        && value.bytes().all(|byte| {
+            byte.is_ascii_lowercase() || byte.is_ascii_digit() || matches!(byte, b'+' | b'-' | b'_')
+        })
+}
+
+fn valid_namespace(value: &str) -> bool {
+    valid_segmented_identifier(value, 2)
+}
+
+fn valid_domain_id(value: &str) -> bool {
+    valid_segmented_identifier(value, 2)
+}
+
+fn valid_segmented_identifier(value: &str, minimum_segments: usize) -> bool {
+    let segments = value.split('.').collect::<Vec<_>>();
+    segments.len() >= minimum_segments
+        && segments.iter().all(|segment| {
+            segment
+                .as_bytes()
+                .first()
+                .is_some_and(u8::is_ascii_lowercase)
+                && segment
+                    .bytes()
+                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'_')
+        })
+}
+
+fn valid_schema_reference(value: &str) -> bool {
+    let Some(rest) = value.strip_prefix("schema:") else {
+        return false;
+    };
+    let Some((name, version)) = rest.rsplit_once(":v") else {
+        return false;
+    };
+    valid_segmented_identifier(name, 2)
+        && !version.is_empty()
+        && !version.starts_with('0')
+        && version.bytes().all(|byte| byte.is_ascii_digit())
+}
+
+fn is_descendant_of(candidate: &str, domain: &str) -> bool {
+    candidate
+        .strip_prefix(domain)
+        .is_some_and(|suffix| suffix.starts_with('.'))
+}
+
+fn domains_overlap(left: &str, right: &str) -> bool {
+    left == right || is_descendant_of(left, right) || is_descendant_of(right, left)
 }
 
 #[derive(Debug, Error, PartialEq, Eq)]
@@ -214,12 +266,15 @@ pub type Handler = Arc<dyn Fn(&str) -> Result<String, InvocationError> + Send + 
 #[derive(Default)]
 pub struct DevelopmentSimulator {
     domains: BTreeMap<String, String>,
+    consumers: BTreeMap<String, BTreeSet<String>>,
     providers: BTreeMap<String, Provider>,
-    grants: BTreeSet<(String, String)>,
+    offer_grants: BTreeSet<(String, String)>,
+    consumer_grants: BTreeSet<(String, String)>,
 }
 
 struct Provider {
     module_id: String,
+    available: bool,
     handler: Handler,
 }
 
@@ -231,10 +286,25 @@ impl DevelopmentSimulator {
     ) -> Result<(), SimulatorError> {
         validate_manifest(manifest)?;
 
-        for domain in &manifest.capability_domains.owns {
-            if let Some(owner) = self.domains.get(domain) {
+        if self.consumers.contains_key(&manifest.id)
+            || self.domains.values().any(|owner| owner == &manifest.id)
+            || self
+                .providers
+                .values()
+                .any(|provider| provider.module_id == manifest.id)
+        {
+            return Err(SimulatorError::ModuleAlreadyRegistered(manifest.id.clone()));
+        }
+
+        for claimed in &manifest.capability_domains.owns {
+            if let Some((existing, owner)) = self
+                .domains
+                .iter()
+                .find(|(existing, _)| domains_overlap(claimed, existing))
+            {
                 return Err(SimulatorError::DomainConflict {
-                    domain: domain.clone(),
+                    claimed: claimed.clone(),
+                    existing: existing.clone(),
                     owner: owner.clone(),
                 });
             }
@@ -260,6 +330,15 @@ impl DevelopmentSimulator {
         for domain in &manifest.capability_domains.owns {
             self.domains.insert(domain.clone(), manifest.id.clone());
         }
+        self.consumers.insert(
+            manifest.id.clone(),
+            manifest
+                .capabilities
+                .requires
+                .iter()
+                .map(|capability| capability.id.clone())
+                .collect(),
+        );
         for capability in &manifest.capabilities.provides {
             let handler = handlers
                 .remove(&capability.id)
@@ -268,6 +347,7 @@ impl DevelopmentSimulator {
                 capability.id.clone(),
                 Provider {
                     module_id: manifest.id.clone(),
+                    available: true,
                     handler,
                 },
             );
@@ -275,16 +355,98 @@ impl DevelopmentSimulator {
         Ok(())
     }
 
-    pub fn grant(&mut self, consumer: &str, capability: &str) -> Result<(), SimulatorError> {
-        if !self.providers.contains_key(capability) {
-            return Err(SimulatorError::UnknownCapability(capability.into()));
+    pub fn grant_offer(&mut self, provider: &str, capability: &str) -> Result<(), SimulatorError> {
+        let installed = self
+            .providers
+            .get(capability)
+            .ok_or_else(|| SimulatorError::UnknownCapability(capability.into()))?;
+        if installed.module_id != provider {
+            return Err(SimulatorError::WrongProvider {
+                capability: capability.into(),
+                expected: installed.module_id.clone(),
+                actual: provider.into(),
+            });
         }
-        self.grants.insert((consumer.into(), capability.into()));
+        self.offer_grants
+            .insert((provider.into(), capability.into()));
         Ok(())
     }
 
-    pub fn revoke(&mut self, consumer: &str, capability: &str) {
-        self.grants.remove(&(consumer.into(), capability.into()));
+    pub fn revoke_offer(&mut self, provider: &str, capability: &str) {
+        self.offer_grants
+            .remove(&(provider.into(), capability.into()));
+    }
+
+    pub fn grant_consumer(
+        &mut self,
+        consumer: &str,
+        capability: &str,
+    ) -> Result<(), SimulatorError> {
+        if !self.consumers.contains_key(consumer) {
+            return Err(SimulatorError::UnknownConsumer(consumer.into()));
+        }
+        if !self.providers.contains_key(capability) {
+            return Err(SimulatorError::UnknownCapability(capability.into()));
+        }
+        self.consumer_grants
+            .insert((consumer.into(), capability.into()));
+        Ok(())
+    }
+
+    pub fn revoke_consumer(&mut self, consumer: &str, capability: &str) {
+        self.consumer_grants
+            .remove(&(consumer.into(), capability.into()));
+    }
+
+    pub fn set_provider_available(
+        &mut self,
+        provider: &str,
+        available: bool,
+    ) -> Result<(), SimulatorError> {
+        let mut found = false;
+        for installed in self.providers.values_mut() {
+            if installed.module_id == provider {
+                installed.available = available;
+                found = true;
+            }
+        }
+        if found {
+            Ok(())
+        } else {
+            Err(SimulatorError::UnknownModule(provider.into()))
+        }
+    }
+
+    pub fn unregister(&mut self, module_id: &str) -> Result<(), SimulatorError> {
+        let is_consumer = self.consumers.remove(module_id).is_some();
+        let provided = self
+            .providers
+            .iter()
+            .filter(|(_, provider)| provider.module_id == module_id)
+            .map(|(capability, _)| capability.clone())
+            .collect::<Vec<_>>();
+        let owned = self
+            .domains
+            .iter()
+            .filter(|(_, owner)| *owner == module_id)
+            .map(|(domain, _)| domain.clone())
+            .collect::<Vec<_>>();
+        if !is_consumer && provided.is_empty() && owned.is_empty() {
+            return Err(SimulatorError::UnknownModule(module_id.into()));
+        }
+        for capability in &provided {
+            self.providers.remove(capability);
+        }
+        for domain in owned {
+            self.domains.remove(&domain);
+        }
+        self.offer_grants.retain(|(provider, capability)| {
+            provider != module_id && !provided.contains(capability)
+        });
+        self.consumer_grants.retain(|(consumer, capability)| {
+            consumer != module_id && !provided.contains(capability)
+        });
+        Ok(())
     }
 
     pub fn invoke(
@@ -293,16 +455,41 @@ impl DevelopmentSimulator {
         capability: &str,
         payload: &str,
     ) -> Result<String, InvocationError> {
-        if !self.grants.contains(&(consumer.into(), capability.into())) {
-            return Err(InvocationError::AccessDenied {
-                consumer: consumer.into(),
-                capability: capability.into(),
-            });
-        }
         let provider = self
             .providers
             .get(capability)
             .ok_or_else(|| InvocationError::Unavailable(capability.into()))?;
+        if !provider.available {
+            return Err(InvocationError::Unavailable(capability.into()));
+        }
+        let declared = self
+            .consumers
+            .get(consumer)
+            .ok_or_else(|| InvocationError::UnknownConsumer(consumer.into()))?;
+        if !declared.contains(capability) {
+            return Err(InvocationError::UndeclaredCapability {
+                consumer: consumer.into(),
+                capability: capability.into(),
+            });
+        }
+        if !self
+            .offer_grants
+            .contains(&(provider.module_id.clone(), capability.into()))
+        {
+            return Err(InvocationError::OfferDenied {
+                provider: provider.module_id.clone(),
+                capability: capability.into(),
+            });
+        }
+        if !self
+            .consumer_grants
+            .contains(&(consumer.into(), capability.into()))
+        {
+            return Err(InvocationError::ConsumerDenied {
+                consumer: consumer.into(),
+                capability: capability.into(),
+            });
+        }
         (provider.handler)(payload)
     }
 
@@ -317,8 +504,14 @@ impl DevelopmentSimulator {
 pub enum SimulatorError {
     #[error(transparent)]
     Manifest(#[from] ManifestError),
-    #[error("capability domain {domain} is already owned by {owner}")]
-    DomainConflict { domain: String, owner: String },
+    #[error("capability domain {claimed} overlaps {existing}, owned by {owner}")]
+    DomainConflict {
+        claimed: String,
+        existing: String,
+        owner: String,
+    },
+    #[error("module is already registered: {0}")]
+    ModuleAlreadyRegistered(String),
     #[error("capability is already provided: {0}")]
     CapabilityConflict(String),
     #[error("no handler supplied for declared capability: {0}")]
@@ -327,12 +520,34 @@ pub enum SimulatorError {
     UndeclaredHandler(String),
     #[error("unknown capability: {0}")]
     UnknownCapability(String),
+    #[error("unknown consumer: {0}")]
+    UnknownConsumer(String),
+    #[error("unknown module: {0}")]
+    UnknownModule(String),
+    #[error("{actual} does not provide {capability}; installed provider is {expected}")]
+    WrongProvider {
+        capability: String,
+        expected: String,
+        actual: String,
+    },
 }
 
 #[derive(Clone, Debug, Error, PartialEq, Eq)]
 pub enum InvocationError {
-    #[error("access denied: {consumer} has no grant for {capability}")]
-    AccessDenied {
+    #[error("unknown development consumer identity: {0}")]
+    UnknownConsumer(String),
+    #[error("access denied: {consumer} did not declare {capability}")]
+    UndeclaredCapability {
+        consumer: String,
+        capability: String,
+    },
+    #[error("access denied: provider {provider} has no offer grant for {capability}")]
+    OfferDenied {
+        provider: String,
+        capability: String,
+    },
+    #[error("access denied: consumer {consumer} has no invocation grant for {capability}")]
+    ConsumerDenied {
         consumer: String,
         capability: String,
     },
@@ -434,7 +649,9 @@ pub enum SigningError {
 mod tests {
     use super::*;
 
-    fn clock_manifest() -> ModuleManifest {
+    const CAPABILITY: &str = "example.clock.now";
+
+    fn provider_manifest() -> ModuleManifest {
         parse_manifest_yaml(
             r#"
 schema_version: 3
@@ -458,47 +675,241 @@ capabilities:
         .unwrap()
     }
 
-    #[test]
-    fn default_deny_grant_then_revoke() {
-        let manifest = clock_manifest();
-        let mut handlers = BTreeMap::new();
-        handlers.insert(
-            "example.clock.now".into(),
-            Arc::new(|_: &str| Ok("12:00:00Z".into())) as Handler,
-        );
-        let mut simulator = DevelopmentSimulator::default();
-        simulator.register(&manifest, handlers).unwrap();
+    fn consumer_manifest(id: &str, declares_clock: bool) -> ModuleManifest {
+        let requirement = if declares_clock {
+            r#"
+    - id: example.clock.now
+      version: 1
+      schema: schema:example.clock.now:v1
+      required: true"#
+        } else {
+            " []"
+        };
+        parse_manifest_yaml(&format!(
+            r#"
+schema_version: 3
+id: {id}
+namespace: community.example.{id}
+version: 0.1.0
+language: rust
+capability_domains:
+  owns: []
+capabilities:
+  provides: []
+  requires:{requirement}
+  dynamic_requires: false
+"#
+        ))
+        .unwrap()
+    }
 
+    fn domain_manifest(id: &str, domain: &str, capability: &str) -> ModuleManifest {
+        parse_manifest_yaml(&format!(
+            r#"
+schema_version: 3
+id: {id}
+namespace: community.example.{id}
+version: 0.1.0
+language: rust
+capability_domains:
+  owns: [{domain}]
+capabilities:
+  provides:
+    - id: {capability}
+      version: 1
+      kind: query
+      schema: schema:{capability}:v1
+      externally_invocable: false
+  requires: []
+  dynamic_requires: false
+"#
+        ))
+        .unwrap()
+    }
+
+    fn clock_handler() -> Handler {
+        Arc::new(|_: &str| Ok("12:00:00Z".into()))
+    }
+
+    fn registered_pair(consumer: ModuleManifest) -> DevelopmentSimulator {
+        let provider = provider_manifest();
+        let mut handlers = BTreeMap::new();
+        handlers.insert(CAPABILITY.into(), clock_handler());
+        let mut simulator = DevelopmentSimulator::default();
+        simulator.register(&provider, handlers).unwrap();
+        simulator.register(&consumer, BTreeMap::new()).unwrap();
+        simulator
+    }
+
+    #[test]
+    fn provider_offer_and_consumer_grants_are_independent_and_revocable() {
+        let consumer = consumer_manifest("dashboard", true);
+
+        let mut neither = registered_pair(consumer.clone());
         assert!(matches!(
-            simulator.invoke("consumer", "example.clock.now", "{}"),
-            Err(InvocationError::AccessDenied { .. })
+            neither.invoke("dashboard", CAPABILITY, "{}"),
+            Err(InvocationError::OfferDenied { .. })
         ));
-        simulator.grant("consumer", "example.clock.now").unwrap();
+
+        neither.grant_offer("hello-clock", CAPABILITY).unwrap();
+        assert!(matches!(
+            neither.invoke("dashboard", CAPABILITY, "{}"),
+            Err(InvocationError::ConsumerDenied { .. })
+        ));
+
+        let mut consumer_only = registered_pair(consumer);
+        consumer_only
+            .grant_consumer("dashboard", CAPABILITY)
+            .unwrap();
+        assert!(matches!(
+            consumer_only.invoke("dashboard", CAPABILITY, "{}"),
+            Err(InvocationError::OfferDenied { .. })
+        ));
+
+        consumer_only
+            .grant_offer("hello-clock", CAPABILITY)
+            .unwrap();
         assert_eq!(
-            simulator
-                .invoke("consumer", "example.clock.now", "{}")
-                .unwrap(),
+            consumer_only.invoke("dashboard", CAPABILITY, "{}").unwrap(),
             "12:00:00Z"
         );
-        simulator.revoke("consumer", "example.clock.now");
+
+        consumer_only.revoke_offer("hello-clock", CAPABILITY);
         assert!(matches!(
-            simulator.invoke("consumer", "example.clock.now", "{}"),
-            Err(InvocationError::AccessDenied { .. })
+            consumer_only.invoke("dashboard", CAPABILITY, "{}"),
+            Err(InvocationError::OfferDenied { .. })
+        ));
+
+        consumer_only
+            .grant_offer("hello-clock", CAPABILITY)
+            .unwrap();
+        consumer_only.revoke_consumer("dashboard", CAPABILITY);
+        assert!(matches!(
+            consumer_only.invoke("dashboard", CAPABILITY, "{}"),
+            Err(InvocationError::ConsumerDenied { .. })
         ));
     }
 
     #[test]
-    fn exclusive_domain_ownership_is_enforced() {
-        let manifest = clock_manifest();
-        let mut handlers = BTreeMap::new();
-        handlers.insert(
-            "example.clock.now".into(),
-            Arc::new(|_: &str| Ok("time".into())) as Handler,
-        );
+    fn consumer_grant_does_not_replace_static_declaration() {
+        let mut simulator = registered_pair(consumer_manifest("undeclared", false));
+        simulator.grant_offer("hello-clock", CAPABILITY).unwrap();
+        simulator.grant_consumer("undeclared", CAPABILITY).unwrap();
+
+        assert!(matches!(
+            simulator.invoke("undeclared", CAPABILITY, "{}"),
+            Err(InvocationError::UndeclaredCapability { .. })
+        ));
+    }
+
+    #[test]
+    fn unavailable_removed_and_unknown_providers_fail_closed() {
+        let mut simulator = registered_pair(consumer_manifest("dashboard", true));
+        simulator.grant_offer("hello-clock", CAPABILITY).unwrap();
+        simulator.grant_consumer("dashboard", CAPABILITY).unwrap();
+
+        assert!(matches!(
+            simulator.invoke("dashboard", "example.unknown.read", "{}"),
+            Err(InvocationError::Unavailable(_))
+        ));
+
+        simulator
+            .set_provider_available("hello-clock", false)
+            .unwrap();
+        assert!(matches!(
+            simulator.invoke("dashboard", CAPABILITY, "{}"),
+            Err(InvocationError::Unavailable(_))
+        ));
+
+        simulator.unregister("hello-clock").unwrap();
+        assert!(matches!(
+            simulator.invoke("dashboard", CAPABILITY, "{}"),
+            Err(InvocationError::Unavailable(_))
+        ));
+    }
+
+    #[test]
+    fn ancestor_and_descendant_domain_claims_conflict() {
         let mut simulator = DevelopmentSimulator::default();
-        simulator.register(&manifest, handlers).unwrap();
-        let error = simulator.register(&manifest, BTreeMap::new()).unwrap_err();
+        let parent = domain_manifest("parent", "example.clock", "example.clock.now");
+        let child = domain_manifest("child", "example.clock.backup", "example.clock.backup.read");
+        let mut handlers = BTreeMap::new();
+        handlers.insert("example.clock.now".into(), clock_handler());
+        simulator.register(&parent, handlers).unwrap();
+        let mut child_handlers = BTreeMap::new();
+        child_handlers.insert("example.clock.backup.read".into(), clock_handler());
+        let error = simulator.register(&child, child_handlers).unwrap_err();
         assert!(matches!(error, SimulatorError::DomainConflict { .. }));
+        assert_eq!(simulator.provider_for("example.clock.backup.read"), None);
+
+        let mut reverse = DevelopmentSimulator::default();
+        let mut child_handlers = BTreeMap::new();
+        child_handlers.insert("example.clock.backup.read".into(), clock_handler());
+        reverse.register(&child, child_handlers).unwrap();
+        let mut parent_handlers = BTreeMap::new();
+        parent_handlers.insert("example.clock.now".into(), clock_handler());
+        assert!(matches!(
+            reverse.register(&parent, parent_handlers),
+            Err(SimulatorError::DomainConflict { .. })
+        ));
+        assert_eq!(reverse.provider_for("example.clock.now"), None);
+    }
+
+    #[test]
+    fn segment_boundary_prevents_false_prefix_conflicts() {
+        let clock = domain_manifest("clock", "example.clock", "example.clock.now");
+        let clockwork =
+            domain_manifest("clockwork", "example.clockwork", "example.clockwork.status");
+        let mut simulator = DevelopmentSimulator::default();
+        let mut clock_handlers = BTreeMap::new();
+        clock_handlers.insert("example.clock.now".into(), clock_handler());
+        simulator.register(&clock, clock_handlers).unwrap();
+        let mut clockwork_handlers = BTreeMap::new();
+        clockwork_handlers.insert("example.clockwork.status".into(), clock_handler());
+        simulator.register(&clockwork, clockwork_handlers).unwrap();
+        assert_eq!(
+            simulator.provider_for("example.clockwork.status"),
+            Some("clockwork")
+        );
+    }
+
+    #[test]
+    fn registration_is_atomic_after_late_validation_failure() {
+        let manifest = domain_manifest("backup", "example.backup", "example.backup.read");
+        let mut handlers = BTreeMap::new();
+        handlers.insert("example.backup.read".into(), clock_handler());
+        handlers.insert("example.backup.hidden".into(), clock_handler());
+        let mut simulator = DevelopmentSimulator::default();
+        assert!(matches!(
+            simulator.register(&manifest, handlers),
+            Err(SimulatorError::UndeclaredHandler(_))
+        ));
+        assert_eq!(simulator.provider_for("example.backup.read"), None);
+
+        let mut valid_handlers = BTreeMap::new();
+        valid_handlers.insert("example.backup.read".into(), clock_handler());
+        simulator.register(&manifest, valid_handlers).unwrap();
+    }
+
+    #[test]
+    fn overlapping_domains_inside_one_manifest_are_invalid() {
+        let error = parse_manifest_yaml(
+            r#"
+schema_version: 3
+id: overlap
+namespace: community.example.overlap
+version: 0.1.0
+language: rust
+capability_domains:
+  owns: [example.clock, example.clock.backup]
+capabilities:
+  provides: []
+  requires: []
+  dynamic_requires: false
+"#,
+        )
+        .unwrap_err();
+        assert!(matches!(error, ManifestError::Invalid(_)));
     }
 
     #[test]

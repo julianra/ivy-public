@@ -1,0 +1,15 @@
+schema_version: 3
+id: example-dashboard
+namespace: community.example.dashboard
+version: 0.1.0
+language: rust
+capability_domains:
+  owns: []
+capabilities:
+  provides: []
+  requires:
+    - id: example.clock.now
+      version: 1
+      schema: schema:example.clock.now:v1
+      required: true
+  dynamic_requires: false

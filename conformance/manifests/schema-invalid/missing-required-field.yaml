@@ -1,0 +1,10 @@
+schema_version: 3
+id: example-missing
+namespace: example.missing
+version: 1.0.0
+language: rust
+capability_domains:
+  owns: []
+capabilities:
+  provides: []
+  requires: []

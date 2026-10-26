@@ -1,35 +1,32 @@
-name: Developer Kit bug
-description: Report a reproducible problem in public Developer Kit code.
+name: Developer Kit bug / fout
+description: Report a reproducible public-kit problem. / Meld een reproduceerbaar probleem.
 title: "[Bug]: "
 labels: ["type:bug", "status:needs-repro"]
 body:
   - type: markdown
     attributes:
-      value: Do not report vulnerabilities or private Ivy information here.
+      value: Do not disclose vulnerabilities or private Ivy data. / Deel geen kwetsbaarheden of private Ivy-data.
   - type: input
     id: revision
     attributes:
-      label: Revision
-      description: Commit or release version.
-    validations:
-      required: true
+      label: Revision / Revisie
+      description: Commit or release version. / Commit- of releaseversie.
+    validations: {required: true}
   - type: textarea
     id: steps
     attributes:
-      label: Reproduction
-      description: Minimal commands and inputs.
-    validations:
-      required: true
+      label: Reproduction / Reproductie
+      description: Minimal commands and inputs. / Minimale commando's en invoer.
+    validations: {required: true}
   - type: textarea
     id: expected
     attributes:
-      label: Expected and actual behavior
-    validations:
-      required: true
+      label: Expected and actual / Verwacht en werkelijk
+    validations: {required: true}
   - type: checkboxes
     id: privacy
     attributes:
-      label: Safety
+      label: Safety / Veiligheid
       options:
-        - label: This report contains no secrets, personal data or private Ivy source.
+        - label: No secrets, personal data or private Ivy source. / Geen secrets, persoonsgegevens of private Ivy-broncode.
           required: true

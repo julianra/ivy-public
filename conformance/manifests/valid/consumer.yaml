@@ -1,0 +1,15 @@
+schema_version: 3
+id: example-panel
+namespace: community.example.panel
+version: 0.1.0
+language: dart
+capability_domains:
+  owns: []
+capabilities:
+  provides: []
+  requires:
+    - id: example.light.status
+      version: 1
+      schema: schema:example.light.status:v1
+      required: true
+  dynamic_requires: false
