@@ -1,5 +1,5 @@
 <!-- doc-key: conduct-support -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: conduct,enforcement,support,security -->
 
 # Conduct and support
@@ -31,6 +31,7 @@ separate agreement says otherwise.
 <!-- section: security -->
 ## Security reports
 
-Never report a vulnerability in a public issue. A monitored private security
-address and GitHub private vulnerability reporting must be configured before
-launch.
+Never report a vulnerability in a public issue. Use GitHub Private Vulnerability
+Reporting and include component, impact, reproduction and affected version or
+commit. Activation is a `MANUAL GITHUB SETTING REQUIRED` before launch; current
+private-repository API checks could not verify it as active.

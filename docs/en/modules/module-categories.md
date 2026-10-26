@@ -1,5 +1,5 @@
 <!-- doc-key: module-categories -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: official,verified,external,ownership,rewards -->
 
 # Module categories and ownership
@@ -32,8 +32,8 @@ claim official approval.
 ## Contributions to shared code
 
 Ownership and licensing for a developer's separate module are distinct from
-contributions to this shared Developer Kit. The Developer Kit licence remains
-pending; contributors must review the final terms before contributing.
+contributions to this shared Developer Kit. Accepted Developer Kit contributions
+are Apache-2.0 and certified under DCO 1.1; no CLA is used.
 
 <!-- section: rewards -->
 ## Recognition and rewards

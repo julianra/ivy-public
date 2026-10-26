@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_TOP = {
     ".github", ".gitignore", "ARCHITECTURE.md", "CODE_OF_CONDUCT.md",
-    "CONTRIBUTING.md", "Cargo.lock", "Cargo.toml", "GOVERNANCE.md",
-    "LICENSES.md", "PUBLICATION_REVIEW.md", "README.md", "ROADMAP.md",
+    "CONTRIBUTING.md", "Cargo.lock", "Cargo.toml", "DCO", "GOVERNANCE.md",
+    "LICENSE", "LICENSES.md", "NOTICE", "PUBLICATION_REVIEW.md", "README.md", "ROADMAP.md",
     "SECURITY.md", "STATUS.md", "SUPPORT.md", "TRADEMARKS.md",
     "conformance", "contracts", "docs", "examples", "media", "rustfmt.toml",
     "scripts", "sdk", "tools",
@@ -28,6 +28,7 @@ TEXT_PATTERNS = {
     "internal identity": re.compile(r"ivy-dev-" + r"[A-Za-z0-9_-]+"),
 }
 SELF_EXCLUDES = {"scripts/repository_safety.py", "scripts/repository-safety.sh"}
+EXPECTED_COMMIT_EMAIL = "36369125+julianra@users.noreply.github.com"
 
 
 def git(*args: str) -> str:
@@ -84,6 +85,15 @@ def scan_media(failures: list[str]) -> None:
             failures.append(f"current:{path.relative_to(ROOT)}: active or remote SVG content")
 
 
+def scan_commit_emails(failures: list[str]) -> None:
+    for line in git("log", "HEAD", "--format=%H%x09%ae%x09%ce").splitlines():
+        commit, author_email, committer_email = line.split("\t")
+        if author_email != EXPECTED_COMMIT_EMAIL:
+            failures.append(f"{commit[:12]}: unexpected author email {author_email}")
+        if committer_email != EXPECTED_COMMIT_EMAIL:
+            failures.append(f"{commit[:12]}: unexpected committer email {committer_email}")
+
+
 def main() -> int:
     failures: list[str] = []
     current = {
@@ -97,15 +107,16 @@ def main() -> int:
             failures.append(f"current:{path}: {reason}")
         else:
             scan_blob("current", path, (ROOT / path).read_bytes(), failures)
-    for commit in git("rev-list", "--all").splitlines():
+    for commit in git("rev-list", "HEAD").splitlines():
         scan_tree(commit, failures)
     scan_media(failures)
+    scan_commit_emails(failures)
     if failures:
         print("repository safety checks failed:", file=sys.stderr)
         for item in sorted(set(failures)):
             print(f"- {item}", file=sys.stderr)
         return 1
-    print("repository safety: OK (allowlist, current tree, history, privacy, proprietary paths, media)")
+    print("repository safety: OK (allowlist, HEAD history, commit emails, privacy, proprietary paths, media)")
     print("warning: automated checks are not publication approval; exact-commit human and legal review remain required")
     return 0
 

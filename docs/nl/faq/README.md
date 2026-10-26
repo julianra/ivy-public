@@ -1,5 +1,5 @@
 <!-- doc-key: faq -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: availability,core,modules,cloud,security,licensing,participation -->
 
 # Veelgestelde vragen
@@ -42,10 +42,10 @@ publieke claim. Een menselijke review van de exacte commit blijft verplicht.
 <!-- section: licensing -->
 ## Welke licentie geldt?
 
-Er is geen repositorybrede licentie goedgekeurd. Apache-2.0 voor de Developer
-Kit is alleen voorgesteld. Core/Core UI blijven proprietary en voor andere
-moduleklassen staan licentiebesluiten open. Neem niet aan dat bestanden zonder
-licentie herbruikbaar zijn.
+De Developer Kit in deze repository valt onder Apache-2.0. Bijdragen gebruiken
+DCO 1.1; er is geen CLA. Core/Core UI blijven proprietary en ontbreken hier.
+Afzonderlijke moduleklassen kunnen andere licenties gebruiken. Ivy/ANWOR-
+trademarks en badges vallen niet onder de Apache-2.0-grant.
 
 <!-- section: participation -->
 ## Hoe kan ik helpen?

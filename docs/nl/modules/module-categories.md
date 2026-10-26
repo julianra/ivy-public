@@ -1,5 +1,5 @@
 <!-- doc-key: module-categories -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: official,verified,external,ownership,rewards -->
 
 # Modulecategorieën en eigendom
@@ -33,9 +33,8 @@ Niet-gereviewde modules mogen geen officiële goedkeuring claimen.
 ## Bijdragen aan gedeelde code
 
 Eigendom en licentie van een afzonderlijke developermodule verschillen van
-bijdragen aan deze gedeelde Developer Kit. De Developer Kit-licentie is nog niet
-goedgekeurd; bijdragers moeten de definitieve voorwaarden bekijken vóór ze
-bijdragen.
+bijdragen aan deze gedeelde Developer Kit. Aanvaarde Developer Kit-bijdragen
+vallen onder Apache-2.0 en worden via DCO 1.1 bevestigd; er is geen CLA.
 
 <!-- section: rewards -->
 ## Erkenning en beloningen

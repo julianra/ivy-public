@@ -1,5 +1,5 @@
 <!-- doc-key: status-roadmap -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: implemented,experimental,planned,exploring,roadmap,claims -->
 
 # Status and roadmap
@@ -36,7 +36,7 @@ manufacturing and public-data integrations.
 <!-- section: roadmap -->
 ## Sequence
 
-Now: licence/product decisions, docs parity and public contract quality. Next:
+Now: publication controls, docs parity and public contract quality. Next:
 runtime bindings, package conformance and a reviewed reference module. Later:
 distribution, end-user onboarding, catalogue, backup and federation. There are
 no public date promises.

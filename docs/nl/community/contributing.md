@@ -1,5 +1,5 @@
 <!-- doc-key: contributing -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: first,issues,prs,rfc,modules,marketplace,licensing,rewards,bilingual -->
 
 # Bijdragen
@@ -19,8 +19,9 @@ of operationele informatie toe.
 
 Gebruik een reproduceerbaar Developer Kit-bugrapport voor codefouten en Q&A
 Discussions voor vragen. Vermeld revision, minimale commando's, verwacht/werkelijk
-gedrag en omgeving. Meld kwetsbaarheden privé zodra het securitycontact is
-ingesteld; publiceer ze nooit in een openbaar issue.
+gedrag en omgeving. Publiceer kwetsbaarheden nooit in een openbaar issue;
+gebruik GitHub Private Vulnerability Reporting nadat de launchchecklist dit als
+actief bevestigt.
 
 <!-- section: prs -->
 ## Pull requests
@@ -28,7 +29,8 @@ ingesteld; publiceer ze nooit in een openbaar issue.
 Behandel één onderwerp per PR. Voeg tests toe, documenteer contractimpact, meld
 bronnen en licenties van derden en werk zowel de Engelse als Nederlandse publieke
 documentatie bij. Dezelfde auteur keurt een architectuur- of securitygevoelige
-wijziging niet zelf goed.
+wijziging niet zelf goed. Onderteken elke commit met `git commit -s`; de
+`Signed-off-by`-regel bevestigt het Developer Certificate of Origin 1.1.
 
 <!-- section: rfc -->
 ## RFC's
@@ -57,8 +59,9 @@ en gelden niet automatisch voor wijzigingen of latere releases.
 
 Externe auteurs behouden rechten op originele onafhankelijke modules en kiezen
 gratis, commerciële, proprietary of open-sourcedistributie binnen hun rechten.
-De licentie van de gedeelde Developer Kit is nog niet goedgekeurd; neem niet aan
-dat Apache-2.0 al verleend is.
+Bijdragen die in deze gedeelde Developer Kit worden aanvaard vallen onder
+Apache-2.0 en gebruiken DCO 1.1. Er is geen CLA. De codegrant omvat geen
+Ivy/ANWOR-trademarks of badges.
 
 <!-- section: rewards -->
 ## Beloningen

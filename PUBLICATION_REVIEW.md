@@ -11,6 +11,8 @@ owner review.
 - [English security controls](docs/en/development/publication-security.md)
 - [Nederlandse securitycontroles](docs/nl/development/publication-security.md)
 
-Every unchecked language-specific checklist item remains a blocker, including
-licences, ownership, governance contacts, native GitHub protections, review of
-the exact launch commit and separate owner permission to change visibility.
+Apache-2.0, DCO 1.1 and the trademark boundary are resolved. Every remaining
+unchecked language-specific item is still a blocker, including separate module
+licences, ownership-specific notices, governance contacts, manual GitHub
+settings, review of the exact launch commit and separate owner permission to
+change visibility.

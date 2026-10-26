@@ -18,5 +18,5 @@ publieke wijziging en het doel.
 
 ## Licensing / Licenties
 
-I read `LICENSES.md`; final contribution terms remain unapproved. / Ik las
-`LICENSES.md`; definitieve bijdragevoorwaarden zijn nog niet goedgekeurd.
+- [ ] Every commit has a DCO 1.1 `Signed-off-by` line (`git commit -s`). / Elke commit heeft een DCO 1.1-`Signed-off-by`-regel (`git commit -s`).
+- [ ] I understand accepted Developer Kit contributions are Apache-2.0 and no CLA is used. / Ik begrijp dat aanvaarde Developer Kit-bijdragen Apache-2.0 zijn en dat er geen CLA is.

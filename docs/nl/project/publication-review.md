@@ -1,5 +1,5 @@
 <!-- doc-key: publication-review -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: legal,product,community,security,github,launch -->
 
 # Publicatiereview
@@ -12,11 +12,11 @@ eigenaar afzonderlijk expliciete publicatietoestemming geeft.
 <!-- section: legal -->
 ## Juridische beslissingen
 
-- [ ] Bevestig bevoegde ANWOR-rechthebbende en copyrightvermelding.
-- [ ] Keur Apache-2.0 voor Developer Kit-bestanden goed of af.
-- [ ] Beslis DCO versus CLA.
+- [x] Pas Apache-2.0 toe op de Ivy Developer Kit in deze repository.
+- [x] Gebruik DCO 1.1 voor bijdragen; geen CLA.
+- [x] Pas repositorybeleid voor trademarks/badges en de NOTICE-grens toe.
+- [ ] Bevestig eventuele eigendomsspecifieke copyrightvermelding.
 - [ ] Keur System Module- en Community Module-licenties goed.
-- [ ] Keur dependencynotice en trademark-/badgeregels goed.
 
 <!-- section: product -->
 ## Productbeslissingen
@@ -39,15 +39,16 @@ eigenaar afzonderlijk expliciete publicatietoestemming geeft.
 
 - [ ] Onafhankelijke scan en menselijke review van exacte launchcommit en historie.
 - [ ] Menselijke review van elke screenshot/media-asset.
-- [ ] Configureer bewaakte private vulnerability reporting.
+- [ ] `MANUAL GITHUB SETTING REQUIRED`: activeer en verifieer GitHub Private Vulnerability Reporting.
 - [ ] Herhaal clean-clonebuilds zonder toegang tot de private repository.
 
 <!-- section: github -->
 ## GitHub-controls
 
-- [ ] Activeer branch rules met review, CODEOWNERS, CI en zonder force-push/delete.
-- [ ] Activeer native secret scanning/push protection wanneer beschikbaar.
-- [ ] Activeer CodeQL en Dependency Review voor gekozen plan/visibility.
+- [x] `VERIFIED ACTIVE`: CI, Gitleaks, repository-safety en Dependabot-securitycontrols.
+- [x] `READY WHEN PUBLIC`: CodeQL- en Dependency Review-workflows.
+- [ ] `MANUAL GITHUB SETTING REQUIRED`: branch rules met review, CODEOWNERS, CI en zonder force-push/delete.
+- [ ] `MANUAL GITHUB SETTING REQUIRED`: native secret scanning en push protection.
 - [ ] Bevestig nul open geautomatiseerde PR's en geen extra branch.
 
 <!-- section: launch -->

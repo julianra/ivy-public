@@ -1,8 +1,13 @@
 # Security
 
-Do not disclose suspected vulnerabilities in a public issue. While this
-repository remains private, contact the repository owner through GitHub. A
-monitored private reporting channel is required before launch.
+Do not disclose suspected vulnerabilities in public issues, pull requests or
+Discussions. Use GitHub **Private Vulnerability Reporting** from the repository's
+Security tab. Include the affected component, impact, minimal reproduction and
+relevant release or commit.
+
+Private Vulnerability Reporting is the intended public reporting route, but it
+is not currently active or verifiable while this repository is private. The
+launch checklist therefore marks activation as `MANUAL GITHUB SETTING REQUIRED`.
 
 - [English publication and security review](docs/en/development/publication-security.md)
 - [Nederlandse publicatie- en securityreview](docs/nl/development/publication-security.md)

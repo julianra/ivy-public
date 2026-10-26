@@ -1,5 +1,5 @@
 <!-- doc-key: status-roadmap -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: implemented,experimental,planned,exploring,roadmap,claims -->
 
 # Status en roadmap
@@ -36,7 +36,7 @@ manufacturing en publieke-data-integraties.
 <!-- section: roadmap -->
 ## Volgorde
 
-Nu: licentie-/productbeslissingen, documentatiepariteit en publieke
+Nu: publicatiecontrols, documentatiepariteit en publieke
 contractkwaliteit. Vervolgens: runtimebindings, packageconformance en een
 gereviewde referentiemodule. Later: distributie, onboarding voor eindgebruikers,
 catalogus, backup en federatie. Er zijn geen publieke datumbeloften.

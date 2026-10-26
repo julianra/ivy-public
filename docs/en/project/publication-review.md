@@ -1,5 +1,5 @@
 <!-- doc-key: publication-review -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: legal,product,community,security,github,launch -->
 
 # Publication review
@@ -12,11 +12,11 @@ gives separate explicit publication permission.
 <!-- section: legal -->
 ## Legal decisions
 
-- [ ] Confirm authorised ANWOR rights holder and copyright notice.
-- [ ] Approve or reject Apache-2.0 for Developer Kit files.
-- [ ] Decide DCO versus CLA.
+- [x] Apply Apache-2.0 to the Ivy Developer Kit in this repository.
+- [x] Use DCO 1.1 for contributions; no CLA.
+- [x] Apply the repository trademark/badge policy and NOTICE boundary.
+- [ ] Confirm any ownership-specific copyright notice.
 - [ ] Approve System Module and Community Module licences.
-- [ ] Approve dependency notice and trademark/badge rules.
 
 <!-- section: product -->
 ## Product decisions
@@ -39,15 +39,16 @@ gives separate explicit publication permission.
 
 - [ ] Independent scan and human review of exact launch commit and history.
 - [ ] Human review of every screenshot/media asset.
-- [ ] Configure monitored private vulnerability reporting.
+- [ ] `MANUAL GITHUB SETTING REQUIRED`: enable and verify GitHub Private Vulnerability Reporting.
 - [ ] Re-run clean-clone builds without private repository access.
 
 <!-- section: github -->
 ## GitHub controls
 
-- [ ] Enable branch rules with review, CODEOWNERS, CI and no force-push/delete.
-- [ ] Enable native secret scanning/push protection when available.
-- [ ] Enable CodeQL and Dependency Review for the chosen plan/visibility.
+- [x] `VERIFIED ACTIVE`: CI, Gitleaks, repository-safety and Dependabot security controls.
+- [x] `READY WHEN PUBLIC`: CodeQL and Dependency Review workflows.
+- [ ] `MANUAL GITHUB SETTING REQUIRED`: branch rules with review, CODEOWNERS, CI and no force-push/delete.
+- [ ] `MANUAL GITHUB SETTING REQUIRED`: native secret scanning and push protection.
 - [ ] Confirm no open automated PR or extra branch.
 
 <!-- section: launch -->

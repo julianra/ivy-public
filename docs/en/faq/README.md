@@ -1,5 +1,5 @@
 <!-- doc-key: faq -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: availability,core,modules,cloud,security,licensing,participation -->
 
 # Frequently asked questions
@@ -42,9 +42,10 @@ exact-commit human review is mandatory before publication.
 <!-- section: licensing -->
 ## What licence applies?
 
-No repository-wide licence has been approved. Apache-2.0 for the Developer Kit
-is only proposed. Core/Core UI remain proprietary and other module classes have
-open licence decisions. Do not assume unlicensed files are reusable.
+The Developer Kit in this repository is Apache-2.0. Contributions use DCO 1.1;
+there is no CLA. Core/Core UI remain proprietary and are absent. Separate module
+classes may use other licences. Ivy/ANWOR trademarks and badges are not part of
+the Apache-2.0 grant.
 
 <!-- section: participation -->
 ## How can I help?

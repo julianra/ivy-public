@@ -1,5 +1,5 @@
 <!-- doc-key: conduct-support -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: conduct,enforcement,support,security -->
 
 # Gedrag en ondersteuning
@@ -31,6 +31,8 @@ auteur tenzij een afzonderlijke overeenkomst anders bepaalt.
 <!-- section: security -->
 ## Securitymeldingen
 
-Meld een kwetsbaarheid nooit in een openbaar issue. Een bewaakt privé
-securityadres en GitHub private vulnerability reporting moeten vóór lancering
-worden ingesteld.
+Meld een kwetsbaarheid nooit in een openbaar issue. Gebruik GitHub Private
+Vulnerability Reporting en vermeld component, impact, reproductie en getroffen
+versie of commit. Activering is vóór lancering een
+`MANUAL GITHUB SETTING REQUIRED`; de huidige API-controle van de private repo kon
+geen actieve status bevestigen.

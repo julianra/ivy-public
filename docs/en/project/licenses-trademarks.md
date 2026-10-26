@@ -1,18 +1,19 @@
 <!-- doc-key: licenses-trademarks -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: status,core,modules,external,developer-kit,trademarks,decisions -->
 
 # Licensing, ownership and trademarks
 
 [Nederlands](../../nl/project/licenses-trademarks.md) | **English**
 
-This is explanatory policy, not an approved legal licence text.
+The official Apache-2.0 and DCO 1.1 texts are kept verbatim in the repository;
+this page explains their scope.
 
 <!-- section: status -->
 ## Current status
 
-No final public source-code licence has been applied. Private repository access
-does not grant redistribution, commercial exploitation or publication rights.
+The independently buildable Ivy Developer Kit in this repository is licensed
+under Apache-2.0. Contributions use DCO 1.1 sign-off. There is no CLA.
 
 <!-- section: core -->
 ## Core and Core UI
@@ -37,18 +38,23 @@ ownership.
 <!-- section: developer-kit -->
 ## Developer Kit
 
-Apache-2.0 is proposed for independently usable contracts, SDKs, tools, examples
-and conformance code. It is not approved or applied. DCO versus CLA also remains
-open.
+Apache-2.0 applies to this repository's independently usable contracts, SDKs,
+tools, examples, conformance code and documentation. The official terms are in
+the root `LICENSE`; required attribution is in `NOTICE`. Each contribution must
+carry a `Signed-off-by` line certifying DCO 1.1.
 
 <!-- section: trademarks -->
 ## Trademarks
 
-No future code licence permits misleading use of Ivy, ANWOR, `ANWOR Official` or
-`ANWOR Verified`. Final brand and badge rules require approval.
+Apache-2.0 does not license Ivy/ANWOR names, logos, badges, `ANWOR Official` or
+`ANWOR Verified`. Reasonable nominative use may identify the project, but use
+must not imply sponsorship, endorsement, verification or official status. A
+confusing project/package name and unapproved badge use are prohibited.
 
 <!-- section: decisions -->
 ## Open decisions
 
-Authorised rights holder, copyright notice, Developer Kit licence, contribution
-terms, two module licences, dependency notice, trademarks and commercial terms.
+Open decisions are limited to the separate System Module and Community Module
+licences, ownership-specific copyright notices, and any commercial terms. The
+Developer Kit licence, DCO contribution route and trademark boundary are final
+for this repository.

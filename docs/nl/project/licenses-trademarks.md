@@ -1,19 +1,19 @@
 <!-- doc-key: licenses-trademarks -->
-<!-- parity-version: 2 -->
+<!-- parity-version: 3 -->
 <!-- sections: status,core,modules,external,developer-kit,trademarks,decisions -->
 
 # Licenties, eigendom en trademarks
 
 **Nederlands** | [English](../../en/project/licenses-trademarks.md)
 
-Dit is beleidsuitleg, geen goedgekeurde juridische licentietekst.
+De officiële Apache-2.0- en DCO 1.1-teksten staan ongewijzigd in de repository;
+deze pagina legt hun scope uit.
 
 <!-- section: status -->
 ## Huidige status
 
-Er is geen definitieve publieke broncodelicentie toegepast. Toegang tot de
-private repository verleent geen rechten op herverdeling, commerciële exploitatie
-of publicatie.
+De onafhankelijk bouwbare Ivy Developer Kit in deze repository valt onder
+Apache-2.0. Bijdragen gebruiken DCO 1.1-sign-off. Er is geen CLA.
 
 <!-- section: core -->
 ## Core en Core UI
@@ -37,20 +37,24 @@ modulelicentie en bedrijfsmodel. Marketplace-review draagt geen eigendom over.
 <!-- section: developer-kit -->
 ## Developer Kit
 
-Apache-2.0 is voorgesteld voor onafhankelijk bruikbare contracten, SDK's, tools,
-voorbeelden en conformancecode. Ze is niet goedgekeurd of toegepast. DCO versus
-CLA blijft eveneens open.
+Apache-2.0 geldt voor de onafhankelijk bruikbare contracten, SDK's, tools,
+voorbeelden, conformancecode en documentatie in deze repository. De officiële
+voorwaarden staan in rootbestand `LICENSE`; verplichte attribution staat in
+`NOTICE`. Elke bijdrage moet met een `Signed-off-by`-regel DCO 1.1 bevestigen.
 
 <!-- section: trademarks -->
 ## Trademarks
 
-Geen toekomstige codelicentie staat misleidend gebruik van Ivy, ANWOR,
-`ANWOR Official` of `ANWOR Verified` toe. Definitieve merk- en badgeregels
-vereisen goedkeuring.
+Apache-2.0 licenseert de namen, logo's en badges van Ivy/ANWOR, `ANWOR Official`
+en `ANWOR Verified` niet. Redelijk nominatief gebruik mag het project aanduiden,
+maar mag geen sponsoring, endorsement, verificatie of officiële status
+suggereren. Verwarrende project-/packagenamen en ongeautoriseerde badges zijn
+verboden.
 
 <!-- section: decisions -->
 ## Open beslissingen
 
-Bevoegde rechthebbende, copyrightvermelding, Developer Kit-licentie,
-bijdragevoorwaarden, twee modulelicenties, dependencynotice, trademarks en
-commerciële voorwaarden.
+Open beslissingen zijn beperkt tot de afzonderlijke System Module- en Community
+Module-licenties, eigendomsspecifieke copyrightvermeldingen en eventuele
+commerciële voorwaarden. De Developer Kit-licentie, DCO-bijdrageroute en
+trademarkgrens zijn voor deze repository definitief.
