@@ -24,6 +24,9 @@ Review scope: complete private launch candidate before initial Git commit.
   product;
 - the simulator is intentionally incomplete and must not be deployed as Core;
 - final contact details for private vulnerability reporting are not configured.
+- native secret scanning, push protection and branch protection are unavailable
+  for this private repository on the current GitHub plan; CI gates are present
+  but cannot prevent a direct push by the owner.
 
 ## Result
 

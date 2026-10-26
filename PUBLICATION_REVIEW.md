@@ -37,6 +37,9 @@ and the owner gives separate, explicit permission to make it public.
 - [ ] Human review of screenshots and diagrams.
 - [ ] Enable private vulnerability reporting if available.
 - [ ] Enable supported secret scanning, dependency alerts and code scanning.
+- [ ] Enable branch rules after upgrading the private-repository plan or as part
+      of the separately approved public launch; GitHub rejected them while this
+      repository remained private.
 - [ ] Re-run clean-clone builds without private repository access.
 
 ## Launch approval

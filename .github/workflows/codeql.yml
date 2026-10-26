@@ -13,6 +13,10 @@ permissions:
 
 jobs:
   analyze:
+    # GitHub code scanning for this private personal repository requires a plan
+    # feature that is not currently available. It becomes active after an
+    # explicitly approved public launch.
+    if: github.event.repository.private == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
