@@ -2,50 +2,77 @@
 <!-- parity-version: 2 -->
 <!-- sections: scope,syntax,semantics,fixtures,generator -->
 
-# Canonieke publieke manifestsubset
+# Modulemanifest: hoe beschrijf je je Ivy-module?
 
 **Nederlands** | [English](../../en/development/manifest-reference.md)
 
-<!-- section: scope -->
-## Scope
+Een **manifest** is de technische identiteitskaart van een module. Het beschrijft bijvoorbeeld haar naam, versie, functies (*capabilities*) en de domeinen waarvoor ze verantwoordelijk wil zijn. Ivy gebruikt afgesproken regels om die beschrijving te controleren.
 
-Het publieke schema is een strikte developergerichte subset van private
-manifestschema versie 3. Het laat productievelden voor runtime, IPC, sandbox,
-platform, resources, distributie en permissions bewust weg.
+Stel dat je een module voor slimme verlichting maakt. Je kunt verklaren dat ze `home.lighting` beheert en functies zoals `home.lighting.turn_on` aanbiedt. De validator controleert dan of die gegevens geldig zijn opgebouwd en of de aanvullende inhoudelijke regels worden gevolgd.
+
+**Let op:** een geldig manifest is nog geen toestemming om een module te installeren of haar functies te gebruiken.
+
+<!-- section: scope -->
+## Wat beschrijft dit publieke schema?
+
+Het [publieke JSON Schema](../../../contracts/schemas/module-manifest-v3.schema.json) is een **strikte ontwikkelaarssubset** van het private manifestformaat v3. Daarmee kun je publieke modulebeschrijvingen bouwen en controleren, zonder toegang tot de private Core.
+
+Productievelden voor runtime, IPC (communicatie tussen processen), sandbox, platform, resources, distributie en permissions zijn bewust weggelaten. Deze Developer Kit is dus geen volledige productie-installer.
 
 <!-- section: syntax -->
-## Structurele regels
+## Welke schrijfregels gelden?
 
-- module-ID: lowercase ASCII-woorden gescheiden door `-`;
-- namespace-/domeinsegmenten: beginnen met een lowercase letter en bevatten
-  lowercase letters, cijfers of `_`, uitsluitend gescheiden door `.`;
-- namespace/domein: minstens twee segmenten;
-- capability-ID: minstens drie segmenten;
-- versie: SemVer 2.0.0;
-- schemareferentie: `schema:<naam-met-minstens-twee-segmenten>:v<positief-getal>`;
-- commands vereisen `retry_semantics`; queries verbieden dit;
-- alle velden zijn expliciet en onbekende velden falen validatie.
+De schema-validator controleert de **structuur**: bestaan de juiste velden en voldoen namen en waarden aan de verwachte vorm?
+
+| Onderdeel | Regel | Voorbeeld |
+|---|---|---|
+| Module-ID | Kleine ASCII-letters/cijfers, eventueel gescheiden door `-` | `smart-lighting` |
+| Namespace of domein | Minstens twee puntgescheiden segmenten; elk begint met een kleine letter en mag daarna kleine letters, cijfers en `_` bevatten | `home.lighting` |
+| Capability-ID | Minstens drie puntgescheiden segmenten | `home.lighting.turn_on` |
+| Moduleversie | Semantic Versioning (SemVer 2.0.0) | `1.2.0` |
+| Schemareferentie | `schema:<naam-met-minstens-twee-segmenten>:v<positief-getal>` | `schema:home.lighting:v1` |
+| Command | Moet `retry_semantics` opgeven (wat bij herhaling mag gebeuren) | `not_retryable` |
+| Query | Mag geen `retry_semantics` bevatten | Een status opvragen |
+
+Alle toegestane velden zijn expliciet vastgelegd. **Onbekende velden worden geweigerd**. Zo vallen typefouten sneller op.
+
+Een command is bedoeld voor een handeling; een query voor het opvragen van informatie. De declaratie alleen bewijst niet dat de implementatie zich correct gedraagt.
 
 <!-- section: semantics -->
-## Semantische regels alleen in Rust
+## Waarom controleert Rust nog extra regels?
 
-JSON Schema kan niet elke invariant uitdrukken. Rust weigert aanvullend dubbele
-capability-ID's, overlappende domeinen binnen één manifest en provided
-capabilities buiten een owned domain. De simulator controleert conflicten met
-geregistreerde modules en exacte handlerdekking voordat registratie atomisch
-wordt toegepast.
+Een manifest kan netjes geschreven zijn en toch inhoudelijk tegenstrijdig zijn. Daarom voert de **Rust-validator** aanvullende (*semantische*) controles uit.
+
+Hij weigert onder andere:
+- meerdere declaraties met dezelfde capability-ID;
+- overlappende domeinen binnen hetzelfde manifest;
+- aangeboden capabilities die niet onder een eigen domein vallen.
+
+De simulator controleert daarnaast conflicten met **al geregistreerde modules** en of voor iedere aangeboden functie de exacte handler aanwezig is. Pas daarna wordt de registratie **atomisch** uitgevoerd: bij een fout blijft er geen half geregistreerde module achter.
 
 <!-- section: fixtures -->
-## Gedeelde fixtures
+## Hoe testen we deze regels?
 
-Elke fixture doorloopt beide paden. `schema-invalid` moet in beide falen;
-`semantic-invalid` moet structureel slagen maar semantisch falen; `valid` moet in
-beide slagen. Zo kunnen schema, parser, voorbeelden en documentatie niet
-stilzwijgend uit elkaar lopen.
+Onder [conformance/manifests](../../../conformance/manifests) staan voorbeeldbestanden, ook *fixtures* genoemd.
+
+| Testcategorie | Verwachte uitkomst |
+|---|---|
+| `valid` | Zowel JSON Schema als Rust accepteert het manifest |
+| `schema-invalid` | Beide validators weigeren de ongeldige structuur |
+| `semantic-invalid` | JSON Schema accepteert de structuur, maar Rust weigert de inhoud |
+
+Beide validators krijgen dezelfde voorbeelden. Zo wordt sneller zichtbaar wanneer hun gedrag niet meer overeenkomt met de afgesproken regels.
 
 <!-- section: generator -->
-## Generator
+## Moet ik zo'n manifest helemaal zelf schrijven?
 
-De CLI maakt alleen manifests die de canonieke validator accepteert.
-Gegenereerde skeletons zijn developmentstartpunten, geen installeerbare
-Ivy-packages.
+Nee. De **Ivy CLI** kan een startstructuur genereren en valideren:
+
+```bash
+cargo run -p ivy-cli -- new /tmp/status-module --id status-module --namespace community.example.status_module
+cargo run -p ivy-cli -- validate /tmp/status-module/module.yaml
+```
+
+De generator maakt alleen manifests die de canonieke validator accepteert. De gegenereerde bestanden zijn **ontwikkelstartpunten**, geen installeerbare Ivy-productiepakketten.
+
+Lees ook de [Developer Kit-handleiding](developer-kit.md) en de uitleg over [Capabilities](../concepts/capabilities.md).
