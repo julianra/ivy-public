@@ -40,7 +40,8 @@ final class CapabilityDeclaration {
 }
 
 final class DevelopmentGrant {
-  const DevelopmentGrant({required this.consumerId, required this.capabilityId});
+  const DevelopmentGrant(
+      {required this.consumerId, required this.capabilityId});
 
   final String consumerId;
   final String capabilityId;

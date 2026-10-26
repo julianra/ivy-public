@@ -11,6 +11,7 @@ Applied to the private launch candidate on 2026-10-26:
 - repository description and six technical topics configured;
 - proposed community labels created;
 - Dependabot vulnerability alerts and automated security fixes enabled;
+- routine Dependabot version-update PRs disabled during private preparation;
 - CODEOWNERS, CI, CodeQL, dependency review and secret-scan workflows committed.
 
 ## Account-plan limitations while private
@@ -22,6 +23,9 @@ The repository was kept private; no visibility workaround was attempted.
 GitHub also reported that native secret scanning is not available for this
 repository. CI therefore includes a repository safety gate and Gitleaks action,
 but native push protection remains a launch/account-plan task.
+
+Dependency Review is committed but skips while the repository is private,
+because that private-repository feature is unavailable on the current plan.
 
 Private vulnerability reporting returned `404` while the repository is private.
 It must be enabled and verified when GitHub makes it available for the selected

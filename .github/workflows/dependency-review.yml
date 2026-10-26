@@ -7,6 +7,9 @@ permissions:
 
 jobs:
   dependency-review:
+    # Dependency Review for this private personal repository requires an
+    # unavailable plan feature. Activate it after an approved public launch.
+    if: github.event.repository.private == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
