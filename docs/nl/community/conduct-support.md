@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/community/conduct-support.md)
 
+## Hoe werken we prettig samen?
+
+Iedereen mag vragen stellen, fouten melden en ideeën bespreken. Hier lees je **welk gedrag verwacht wordt**, waar ontwikkelaars ondersteuning vinden en hoe kwetsbaarheden privé gemeld moeten worden. Respectvol oneens zijn mag; privégegevens verspreiden niet.
+
 <!-- section: conduct -->
 ## Gedrag
 
