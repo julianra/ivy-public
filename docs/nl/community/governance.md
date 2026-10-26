@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/community/governance.md)
 
+## Wie beslist over Ivy Public?
+
+Bijdragen voorstellen mag iedereen; officiële wijzigingen vragen een passende review. **ANWOR houdt de eindverantwoordelijkheid** voor architectuur en releases. Een *core maintainer* in deze publieke Developer Kit krijgt niet automatisch toegang tot private Ivy Core of ANWOR-systemen; GitHub-rechten worden afzonderlijk toegekend.
+
 <!-- section: stewardship -->
 ## Stewardship
 
