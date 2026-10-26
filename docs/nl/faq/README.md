@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/faq/README.md)
 
+## Begin hier met je vragen
+
+Nieuw bij Ivy? Deze antwoorden leggen uit **wat vandaag beschikbaar is**, wat nog niet publiek werkt en hoe licenties en bijdragen geregeld zijn. De Developer Kit is een experimentele ontwikkelomgeving en geen kant-en-klaar product voor eindgebruikers.
+
 <!-- section: availability -->
 ## Kan ik Ivy vandaag installeren?
 
