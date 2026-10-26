@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/tutorials/first-module.md)
 
+## Wat ga je maken?
+
+In deze oefening maak je een **voorbeeldmodule**, bekijk je haar manifest (technische beschrijving) en test je de declaraties en rechten via de publieke tools. Je hebt Rust en Cargo nodig, maar geen private Core. Het is **geen installatie van een productiemodule**. Voer de commando's uit vanuit de repositoryhoofdmap; `/tmp` is een Unix-voorbeeldpad.
+
 <!-- section: generate -->
 ## Genereer
 
