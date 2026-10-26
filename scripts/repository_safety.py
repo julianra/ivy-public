@@ -29,6 +29,13 @@ TEXT_PATTERNS = {
 }
 SELF_EXCLUDES = {"scripts/repository_safety.py", "scripts/repository-safety.sh"}
 EXPECTED_COMMIT_EMAIL = "36369125+julianra@users.noreply.github.com"
+# These exact, GitHub-verified web-flow commits predate this exception. Binding
+# the allowance to their immutable commit IDs keeps future GitHub noreply
+# committer addresses subject to the normal fail-closed check.
+ALLOWED_COMMITTER_EMAILS_BY_COMMIT = {
+    "7351a69f438603f51709a62968cd189a0ef3efc3": "noreply@github.com",
+    "d3dce01d30aedd9b6678244420d91568072551f4": "noreply@github.com",
+}
 
 
 def git(*args: str) -> str:
@@ -90,7 +97,10 @@ def scan_commit_emails(failures: list[str]) -> None:
         commit, author_email, committer_email = line.split("\t")
         if author_email != EXPECTED_COMMIT_EMAIL:
             failures.append(f"{commit[:12]}: unexpected author email {author_email}")
-        if committer_email != EXPECTED_COMMIT_EMAIL:
+        allowed_committer_email = ALLOWED_COMMITTER_EMAILS_BY_COMMIT.get(
+            commit, EXPECTED_COMMIT_EMAIL
+        )
+        if committer_email != allowed_committer_email:
             failures.append(f"{commit[:12]}: unexpected committer email {committer_email}")
 
 

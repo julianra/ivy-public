@@ -62,7 +62,7 @@ Houd elke PR bij **één onderwerp**. Daardoor kunnen anderen de wijziging gemak
 Iedere commit moet worden ondertekend voor de **Developer Certificate of Origin (DCO) 1.1**:
 
 ```bash
-git commit -s -m "Beschrijf de wijziging"
+git commit -s -m "Describe the change"
 ```
 
 Dat voegt een `Signed-off-by`-regel toe: je bevestigt dat je het recht hebt om deze bijdrage onder de projectvoorwaarden in te dienen. Het is **geen overdracht van auteursrecht**. Meer informatie staat in [DCO](../../../DCO).
