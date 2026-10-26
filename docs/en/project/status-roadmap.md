@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/project/status-roadmap.md) | **English**
 
+## What can I use already?
+
+This page separates **privately developed**, **publicly experimental**, **planned** and **exploratory** work. This prevents an idea or internal implementation from being mistaken for an available public feature. The roadmap promises no release dates.
+
 <!-- section: implemented -->
 ## Implemented privately
 
