@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/project/licenses-trademarks.md)
 
+## Eerst het belangrijkste onderscheid
+
+**Ivy Core blijft privé; de Developer Kit gebruikt Apache-2.0; onafhankelijke modules kunnen een eigen licentie hebben.** Een softwarelicentie gaat over het gebruik van code. Handelsmerken beschermen onder meer de namen, logo's en badges van ANWOR en Ivy. De officiële LICENSE-, NOTICE- en DCO-bestanden blijven leidend.
+
 De officiële Apache-2.0- en DCO 1.1-teksten staan ongewijzigd in de repository;
 deze pagina legt hun scope uit.
 
