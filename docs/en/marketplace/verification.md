@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/marketplace/verification.md) | **English**
 
+## What does Marketplace verification mean?
+
+A label indicates that **a specific version of a module** was reviewed. It does not mean ANWOR owns the module or automatically approves future versions. This page describes **planned policy**, not an active public certification service.
+
 <!-- section: purpose -->
 ## Purpose
 
