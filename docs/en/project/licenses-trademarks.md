@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/project/licenses-trademarks.md) | **English**
 
+## The most important distinction first
+
+**Ivy Core remains private; the Developer Kit uses Apache-2.0; independent modules can have their own licenses.** Software licenses govern use of code. Trademarks protect names, logos and badges belonging to ANWOR and Ivy. The official LICENSE, NOTICE and DCO files remain authoritative.
+
 The official Apache-2.0 and DCO 1.1 texts are kept verbatim in the repository;
 this page explains their scope.
 
