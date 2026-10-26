@@ -1,0 +1,17 @@
+schema_version: 3
+id: hello-clock
+namespace: community.example.hello_clock
+version: 0.1.0
+language: rust
+capability_domains:
+  owns:
+    - example.clock
+capabilities:
+  provides:
+    - id: example.clock.now
+      version: 1
+      kind: query
+      schema: schema:example.clock.now:v1
+      externally_invocable: false
+  requires: []
+  dynamic_requires: false

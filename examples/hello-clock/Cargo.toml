@@ -1,0 +1,10 @@
+[package]
+name = "ivy-hello-clock"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+description = "Capability, grant and revocation example for the Ivy Developer Kit"
+
+[dependencies]
+anyhow.workspace = true
+ivy-devkit = { path = "../../sdk/rust/ivy-devkit" }

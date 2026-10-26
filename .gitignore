@@ -1,0 +1,6 @@
+/target/
+**/.dart_tool/
+**/.packages
+*.devkey
+*.signature.json
+widget-preview.html

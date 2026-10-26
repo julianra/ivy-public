@@ -1,0 +1,24 @@
+- name: good first issue
+  color: "7057ff"
+  description: Narrow, documented entry point for a new contributor.
+- name: help wanted
+  color: "008672"
+  description: Maintainers welcome external implementation help.
+- name: area:sdk
+  color: "1d76db"
+  description: Rust or Dart Developer Kit.
+- name: area:docs
+  color: "0075ca"
+  description: Documentation and tutorials.
+- name: area:modules
+  color: "5319e7"
+  description: Module development and proposals.
+- name: type:rfc
+  color: "d4c5f9"
+  description: Architecture or compatibility proposal.
+- name: type:bug
+  color: "d73a4a"
+  description: Reproducible defect.
+- name: status:needs-repro
+  color: "fbca04"
+  description: Needs a minimal reproduction.

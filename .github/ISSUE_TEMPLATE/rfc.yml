@@ -1,0 +1,29 @@
+name: RFC proposal
+description: Propose a contract, authority or compatibility change.
+title: "[RFC]: "
+labels: ["type:rfc"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and evidence
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Authority and trust boundary
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed contract
+    validations:
+      required: true
+  - type: textarea
+    id: failures
+    attributes:
+      label: Failure, retry, rollback and compatibility
+    validations:
+      required: true
