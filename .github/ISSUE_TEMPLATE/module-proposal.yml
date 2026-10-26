@@ -1,0 +1,32 @@
+name: Module proposal
+description: Propose a new external or reference module.
+title: "[Module]: "
+labels: ["area:modules"]
+body:
+  - type: input
+    id: domain
+    attributes:
+      label: Proposed capability domain
+      placeholder: community.example.domain
+    validations:
+      required: true
+  - type: textarea
+    id: responsibility
+    attributes:
+      label: Domain responsibility
+      description: What this module owns and explicitly does not own.
+    validations:
+      required: true
+  - type: textarea
+    id: capabilities
+    attributes:
+      label: Capabilities and consumers
+    validations:
+      required: true
+  - type: dropdown
+    id: distribution
+    attributes:
+      label: Intended distribution
+      options: [Open source, Closed source, Paid, Free, Undecided]
+    validations:
+      required: true

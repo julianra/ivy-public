@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Ivy public architecture overview</title>
+  <desc id="desc">Users connect through Prism or Bridge to proprietary Core, which routes explicitly granted capabilities to modules.</desc>
+  <rect width="960" height="540" rx="24" fill="#0f1714"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="480" y="48" fill="#edf7f1" font-size="26" font-weight="700">Ivy capability architecture</text>
+    <g fill="#1b2a24" stroke="#4d7667" stroke-width="2">
+      <rect x="90" y="90" width="220" height="74" rx="14"/>
+      <rect x="650" y="90" width="220" height="74" rx="14"/>
+      <rect x="330" y="220" width="300" height="100" rx="16" stroke="#7abf9e"/>
+      <rect x="70" y="400" width="180" height="72" rx="14"/>
+      <rect x="280" y="400" width="180" height="72" rx="14"/>
+      <rect x="500" y="400" width="180" height="72" rx="14"/>
+      <rect x="710" y="400" width="180" height="72" rx="14"/>
+    </g>
+    <g fill="#edf7f1" font-size="20" font-weight="650">
+      <text x="200" y="133">Prism</text><text x="760" y="133">Bridge</text>
+      <text x="480" y="262">Proprietary Core</text>
+      <text x="160" y="443">Agenda</text><text x="370" y="443">Flow</text>
+      <text x="590" y="443">Vault</text><text x="800" y="443">Other modules</text>
+    </g>
+    <text x="480" y="292" fill="#91b6a8" font-size="15">registry · exact grants · lifecycle · audit</text>
+    <g stroke="#7abf9e" stroke-width="3" fill="none" marker-end="url(#arrow)">
+      <path d="M200 164 L395 220"/><path d="M760 164 L565 220"/>
+      <path d="M430 320 L175 400"/><path d="M465 320 L380 400"/>
+      <path d="M495 320 L580 400"/><path d="M530 320 L785 400"/>
+    </g>
+    <text x="480" y="360" fill="#91b6a8" font-size="16">versioned capabilities · default deny · replaceable providers</text>
+  </g>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7abf9e"/></marker></defs>
+</svg>

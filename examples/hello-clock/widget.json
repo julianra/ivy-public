@@ -1,0 +1,6 @@
+{
+  "id": "hello-clock.now",
+  "title": "Hello Clock",
+  "value": "12:34:56",
+  "detail": "Static development fixture; the example provider returns live Unix time."
+}

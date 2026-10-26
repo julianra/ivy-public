@@ -1,0 +1,6 @@
+name: ivy_developer_contracts
+description: Standalone public development types for Ivy module authors.
+version: 0.1.0
+publish_to: none
+environment:
+  sdk: ^3.4.0
