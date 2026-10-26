@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/usecases/README.md) | **English**
 
+## What could someone use Ivy for?
+
+These examples show how specialized modules cooperate on appointments, time tracking, electronics and automation. A *capability* is a named function, an *event* reports something that happened, and a *widget* displays information. **Check each example's status:** a scenario is not necessarily an installable public product.
+
 Status labels mean **Implemented privately**, **Experimental publicly** or
 **Planned**. They never imply a supported public production release.
 
