@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../en/README.md)
 
+## Nieuw bij Ivy?
+
+Ivy laat gespecialiseerde modules samenwerken. **Core bewaakt rechten en verbindingen, modules doen het eigenlijke werk.** Begin bij ‘Wat is Ivy?’ en volg daarna de [eerste-modulehandleiding](tutorials/first-module.md). Dit is een experimentele Developer Kit, geen compleet eindgebruikersproduct.
+
 > **Developerpreview.** Ivy is niet productierijp, de publieke API is niet
 > stabiel en deze repository bevat niet de volledige proprietary runtime.
 
