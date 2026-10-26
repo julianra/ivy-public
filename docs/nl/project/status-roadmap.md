@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/project/status-roadmap.md)
 
+## Wat kan ik al gebruiken?
+
+Deze pagina scheidt **privé ontwikkeld**, **publiek experimenteel**, **gepland** en **onderzocht**. Dat voorkomt dat een idee of interne implementatie per ongeluk als beschikbare publieke functie wordt voorgesteld. De roadmap bevat geen beloofde releasedatums.
+
 <!-- section: implemented -->
 ## Privé geïmplementeerd
 
