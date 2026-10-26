@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/marketplace/verification.md)
 
+## Wat betekent Marketplaceverificatie?
+
+Een label laat zien dat **een specifieke versie van een module** beoordeeld is. Het betekent niet dat ANWOR de module bezit of dat latere versies vanzelf goedgekeurd zijn. Deze pagina beschrijft **gepland beleid**, geen actieve publieke certificeringsdienst.
+
 <!-- section: purpose -->
 ## Doel
 
