@@ -6,6 +6,10 @@
 
 [Nederlands](../nl/README.md) | **English**
 
+## New to Ivy?
+
+Ivy lets specialized modules work together. **Core governs permissions and connections while modules do the domain work.** Start with ‘What is Ivy?’ and then follow the [first-module tutorial](tutorials/first-module.md). This is an experimental Developer Kit, not a complete end-user product.
+
 > **Developer preview.** Ivy is not production-ready, the public API is not
 > stable, and this repository does not contain the complete proprietary runtime.
 
