@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/tutorials/first-module.md) | **English**
 
+## What will you build?
+
+In this exercise you create an **example module**, inspect its manifest (technical description) and test declarations and permissions with public tools. You need Rust and Cargo, but not private Core. This is **not a production module installation**. Run commands from the repository root; `/tmp` is a Unix example path.
+
 <!-- section: generate -->
 ## Generate
 
