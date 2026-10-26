@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/project/publication-review.md)
 
+## Waarom deze checklist?
+
+Deze lijst beschermt tegen het **per ongeluk publiceren van private code, persoonsgegevens of onvoldoende beoordeelde onderdelen**. Een aangevinkt vakje betekent dat die specifieke stap is vastgelegd; het geeft geen toestemming om de repository openbaar te maken. **Publicatie vereist altijd jouw afzonderlijke expliciete goedkeuring.**
+
 De repository moet private blijven totdat elke blocker is opgelost en de
 eigenaar afzonderlijk expliciete publicatietoestemming geeft.
 
