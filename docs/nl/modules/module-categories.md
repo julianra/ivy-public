@@ -6,6 +6,10 @@
 
 **Nederlands** | [English](../../en/modules/module-categories.md)
 
+## Welke modules zijn van wie?
+
+Ivy biedt ruimte aan officiële én onafhankelijke modules. **Een externe ontwikkelaar behoudt zijn eigen rechten** op zelfstandig gemaakte code. De labels Official en Verified beschrijven gecontroleerde herkomst of een specifieke beoordeling, niet eigendomsoverdracht of automatische goedkeuring van volgende versies.
+
 <!-- section: official -->
 ## ANWOR Official
 
