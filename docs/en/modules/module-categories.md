@@ -6,6 +6,10 @@
 
 [Nederlands](../../nl/modules/module-categories.md) | **English**
 
+## Who owns which modules?
+
+Ivy supports official and independent modules. **An external developer retains their rights** to independently created code. Official and Verified labels describe controlled origin or a specific review, not a transfer of ownership or automatic approval of later versions.
+
 <!-- section: official -->
 ## ANWOR Official
 
