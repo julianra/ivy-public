@@ -2,49 +2,77 @@
 <!-- parity-version: 2 -->
 <!-- sections: scope,syntax,semantics,fixtures,generator -->
 
-# Canonical public manifest subset
+# Module manifests: how to describe your Ivy module
 
 [Nederlands](../../nl/development/manifest-reference.md) | **English**
 
-<!-- section: scope -->
-## Scope
+A **manifest** is a module's technical identity card. It describes its name, version, functions (*capabilities*) and the domains it intends to own. Ivy uses agreed rules to validate that description.
 
-The public schema is a strict developer-facing subset of private manifest schema
-version 3. It deliberately omits production runtime, IPC, sandbox, platform,
-resource, distribution and permission fields.
+Imagine building a smart-lighting module. You might declare ownership of `home.lighting` and provide a function such as `home.lighting.turn_on`. Validators check whether the description has the correct structure and follows additional semantic rules.
+
+**Important:** a valid manifest does not itself authorize installation or access to capabilities.
+
+<!-- section: scope -->
+## What does this public schema describe?
+
+The [public JSON Schema](../../../contracts/schemas/module-manifest-v3.schema.json) is a **strict developer-facing subset** of the private manifest format v3. It lets you build and validate public module descriptions without access to private Core.
+
+Production fields for runtime, IPC (inter-process communication), sandbox, platform, resources, distribution and permissions are intentionally excluded. The Developer Kit is not a complete production installer.
 
 <!-- section: syntax -->
-## Structural rules
+## What formatting rules apply?
 
-- module ID: lowercase ASCII words separated by `-`;
-- namespace/domain segments: start with a lowercase letter and contain lowercase
-  letters, digits or `_`, separated only by `.`;
-- namespace/domain: at least two segments;
-- capability ID: at least three segments;
-- version: SemVer 2.0.0;
-- schema reference: `schema:<two-or-more-segment-name>:v<positive-integer>`;
-- commands require `retry_semantics`; queries forbid it;
-- all fields are explicit and unknown fields fail validation.
+The schema validator checks **structure**: are the expected fields present, and do names and values use the required form?
+
+| Element | Rule | Example |
+|---|---|---|
+| Module ID | Lowercase ASCII letters/digits, optionally separated with `-` | `smart-lighting` |
+| Namespace or domain | At least two dot-separated segments; each starts with a lowercase letter and may continue with letters, digits or `_` | `home.lighting` |
+| Capability ID | At least three dot-separated segments | `home.lighting.turn_on` |
+| Module version | Semantic Versioning (SemVer 2.0.0) | `1.2.0` |
+| Schema reference | `schema:<two-or-more-segment-name>:v<positive-integer>` | `schema:home.lighting:v1` |
+| Command | Must declare `retry_semantics` (what may happen when retried) | `not_retryable` |
+| Query | Must not contain `retry_semantics` | Reading a status |
+
+All permitted fields are explicitly defined. **Unknown fields are rejected**, making mistakes easier to catch.
+
+A command requests an action; a query requests information. The declaration alone does not prove how the implementation behaves.
 
 <!-- section: semantics -->
-## Rust-only semantic rules
+## Why does Rust check additional rules?
 
-JSON Schema cannot express every invariant. Rust additionally rejects duplicate
-capability IDs, overlapping domains within one manifest and provided
-capabilities outside an owned domain. The simulator checks conflicts with
-already registered modules and exact handler coverage before atomically applying
-registration.
+A manifest may be correctly formatted yet contain contradictory declarations. The **Rust validator** adds *semantic* checks.
+
+It rejects, among other things:
+- multiple declarations sharing the same capability ID;
+- overlapping owned domains within one manifest;
+- provided capabilities outside an owned domain.
+
+The simulator also checks for conflicts with **already registered modules** and ensures that every offered function has its exact handler. Registration is then **atomic**: failure cannot leave a partially registered module.
 
 <!-- section: fixtures -->
-## Shared fixtures
+## How do we test the rules?
 
-Every fixture is evaluated through both paths. `schema-invalid` must fail both;
-`semantic-invalid` must pass structure but fail Rust semantics; `valid` must pass
-both. This prevents the schema, parser, examples and documentation from silently
-drifting apart.
+The [conformance/manifests](../../../conformance/manifests) directory contains example files known as *fixtures*.
+
+| Test category | Expected result |
+|---|---|
+| `valid` | Both JSON Schema and Rust accept the manifest |
+| `schema-invalid` | Both validators reject the invalid structure |
+| `semantic-invalid` | JSON Schema accepts the structure, but Rust rejects its meaning |
+
+Both validators run against the same examples. This makes it easier to detect differences from the intended contract.
 
 <!-- section: generator -->
-## Generator
+## Do I have to write a manifest from scratch?
 
-The CLI creates only manifests accepted by the canonical validator. Generated
-skeletons are development starting points, not installable Ivy packages.
+No. The **Ivy CLI** can generate a starting structure and validate it:
+
+```bash
+cargo run -p ivy-cli -- new /tmp/status-module --id status-module --namespace community.example.status_module
+cargo run -p ivy-cli -- validate /tmp/status-module/module.yaml
+```
+
+The generator creates only manifests accepted by the canonical validator. Generated files are **development starting points**, not installable Ivy production packages.
+
+See also the [Developer Kit guide](developer-kit.md) and [Capabilities](../concepts/capabilities.md).
