@@ -2,77 +2,127 @@
 <!-- parity-version: 3 -->
 <!-- sections: first,issues,prs,rfc,modules,marketplace,licensing,rewards,bilingual -->
 
-# Bijdragen
+# Bijdragen aan Ivy
 
 **Nederlands** | [English](../../en/community/contributing.md)
 
-<!-- section: first -->
-## Eerste bijdrage
+## Welkom!
 
-Kies een begrensd issue, plaats vóór substantieel werk een reactie, maak een
-gerichte branch, draai `./scripts/check.sh` en leg positief en negatief gedrag uit
-in de pull request. Voeg nooit private Ivy-broncode, credentials, persoonsgegevens
-of operationele informatie toe.
+Fijn dat je wilt helpen om Ivy beter te maken. Je hoeft Ivy niet vanbinnen en vanbuiten te kennen: een duidelijke foutmelding, een verbeterde uitleg of een kleine test kan al waardevol zijn.
+
+Deze repository bevat de **publieke, experimentele Ivy Developer Kit**: hulpmiddelen, contracten en voorbeelden voor moduleontwikkelaars. Ze bevat niet de volledige private Ivy Core.
+
+Je kunt bijdragen door een probleem te melden, een vraag te stellen, documentatie te verbeteren, tests toe te voegen of code voor te stellen. Hieronder lees je hoe dat werkt en welke afspraken daarbij gelden.
+
+**Drie GitHub-begrippen om te kennen:**
+- **Issue:** een melding van een bug of een afgebakend werkpunt.
+- **Branch:** een aparte ontwikkellijn, zodat de bestaande code ongewijzigd blijft tijdens je werk.
+- **Pull request (PR):** een voorstel om jouw wijzigingen na controle samen te voegen.
+
+<!-- section: first -->
+## Je eerste bijdrage
+
+Begin bij voorkeur klein. Zo leren we het voorstel en de impact ervan kennen voordat er veel werk in kruipt.
+
+1. Zoek een duidelijk afgebakend issue en laat in een reactie weten dat je eraan wilt werken, **voordat je veel tijd in de implementatie steekt**.
+2. Maak een aparte branch voor die ene wijziging. Je kunt daarvoor ook vanuit je eigen fork werken.
+3. Voer de controles uit vanuit de hoofdmap van de repository:
+
+   ```bash
+   ./scripts/check.sh
+   ```
+
+4. Open een pull request en beschrijf wat goed moet werken (**positieve tests**) én wat juist geweigerd of veilig afgehandeld moet worden (**negatieve tests**).
+
+**Deel nooit private Ivy-broncode, wachtwoorden of tokens (credentials), persoonsgegevens of interne operationele informatie.** Ook niet in voorbeelden, screenshots, logs of PR-bijlagen.
 
 <!-- section: issues -->
-## Issues melden
+## Een fout melden of een vraag stellen
 
-Gebruik een reproduceerbaar Developer Kit-bugrapport voor codefouten en Q&A
-Discussions voor vragen. Vermeld revision, minimale commando's, verwacht/werkelijk
-gedrag en omgeving. Publiceer kwetsbaarheden nooit in een openbaar issue;
-gebruik GitHub Private Vulnerability Reporting nadat de launchchecklist dit als
-actief bevestigt.
+Heb je een fout gevonden in de Developer Kit? Maak dan een issue met genoeg informatie zodat iemand anders het probleem kan herhalen:
+- de gebruikte versie of commit (*revision*);
+- de kleinste reeks stappen of commando's om de fout na te bootsen;
+- wat je verwachtte en wat er werkelijk gebeurde;
+- je relevante omgeving, bijvoorbeeld besturingssysteem en gebruikte tools.
+
+Voor gewone ontwikkelvragen gebruik je **GitHub Discussions → Q&A**, niet een bugissue.
+
+**Beveiligingslek ontdekt?** Publiceer de details niet in een openbaar issue of Discussion. Gebruik **GitHub Private Vulnerability Reporting zodra de lanceringschecklist heeft bevestigd dat dit actief is**. Tot die bevestiging is er in deze handleiding nog geen geverifieerd privémeldkanaal aangewezen.
 
 <!-- section: prs -->
-## Pull requests
+## Een pull request indienen
 
-Behandel één onderwerp per PR. Voeg tests toe, documenteer contractimpact, meld
-bronnen en licenties van derden en werk zowel de Engelse als Nederlandse publieke
-documentatie bij. Dezelfde auteur keurt een architectuur- of securitygevoelige
-wijziging niet zelf goed. Onderteken elke commit met `git commit -s`; de
-`Signed-off-by`-regel bevestigt het Developer Certificate of Origin 1.1.
+Houd elke PR bij **één onderwerp**. Daardoor kunnen anderen de wijziging gemakkelijker begrijpen en beoordelen.
+
+- Voeg passende tests toe en leg uit wat de wijziging aan publieke afspraken (*contracten*) verandert.
+- Geef bij hergebruik van werk van anderen de herkomst en licentie aan.
+- Werk bij publieke documentatiewijzigingen zowel de Nederlandse als Engelse versie bij.
+- Laat architectuur- of beveiligingsgevoelige wijzigingen onafhankelijk beoordelen: de auteur keurt zijn eigen gevoelige wijziging niet goed.
+
+Iedere commit moet worden ondertekend voor de **Developer Certificate of Origin (DCO) 1.1**:
+
+```bash
+git commit -s -m "Beschrijf de wijziging"
+```
+
+Dat voegt een `Signed-off-by`-regel toe: je bevestigt dat je het recht hebt om deze bijdrage onder de projectvoorwaarden in te dienen. Het is **geen overdracht van auteursrecht**. Meer informatie staat in [DCO](../../../DCO).
 
 <!-- section: rfc -->
-## RFC's
+## Grotere ideeën eerst bespreken: RFC's
 
-Wijzigingen aan capabilities, authority, trust, compatibiliteit, packages of
-Marketplace vereisen een RFC. Beschrijf probleem, ownershipgrens, voorgesteld
-contract, failure- en retrygedrag, migratie, rollback en verworpen alternatieven.
+Een **RFC (Request for Comments)** is een ontwerpvoorstel dat anderen kunnen bespreken voordat er grote wijzigingen worden gebouwd.
+
+Een RFC is nodig bij voorstellen die capabilities (functies), bevoegdheden (*authority*), vertrouwen (*trust*), compatibiliteit, pakketten of de Marketplace veranderen.
+
+Beschrijf daarin:
+- welk probleem je oplost;
+- welke module of welk domein verantwoordelijk is (*ownership*);
+- welke nieuwe of gewijzigde technische afspraak je voorstelt;
+- wat gebeurt bij fouten en herhaalde aanvragen (*failure/retry*);
+- hoe bestaande gebruikers kunnen overstappen (*migratie*) en hoe een wijziging teruggedraaid kan worden (*rollback*);
+- welke alternatieven je onderzocht en afgewezen hebt.
+
+Een kleine tekstcorrectie vraagt doorgaans geen RFC.
 
 <!-- section: modules -->
-## Modules ontwikkelen en voorstellen
+## Zelf een Ivy-module maken
 
-Definieer één begrensd domein, vermeld provided en required capabilities,
-beschrijf wat de module niet bezit, voeg conformancefixtures toe en gebruik het
-moduleproposal-template. Bewaar een onafhankelijke module in de repository van de
-auteur tenzij ANWOR ze expliciet als gedeelde referentiecode aanvaardt.
+Een **module** voegt een afgebakende functie aan Ivy toe. Je kunt een zelfstandige module ontwikkelen zonder de broncode daarvan aan ANWOR over te dragen.
+
+Beschrijf in je voorstel:
+- het domein waarvoor de module verantwoordelijk is, en expliciet wat ze **niet** beheert;
+- welke functies ze aanbiedt (*provided capabilities*);
+- welke functies van anderen ze nodig heeft (*required capabilities*);
+- voorbeelden waarmee geldige en ongeldige situaties worden getest (*conformancefixtures*).
+
+Gebruik daarvoor het **moduleproposal-template**. Bewaar zelfstandige modulecode in je **eigen repository**, tenzij ANWOR uitdrukkelijk aanvaardt dat ze als gedeelde referentiecode in deze Developer Kit wordt opgenomen.
 
 <!-- section: marketplace -->
-## Marketplaceverificatie
+## Een module aanbieden in de Ivy Marketplace
 
-Marketplaceopname is een afzonderlijke review van exacte module-identiteit,
-versie en digest. `ANWOR Official` en `ANWOR Verified` dragen geen eigendom over
-en gelden niet automatisch voor wijzigingen of latere releases.
+Een werkende module verschijnt **niet automatisch** in de officiële Marketplace. Voor opname volgt een aparte beoordeling van de precieze module-identiteit, versie en inhoudsvingerafdruk (*digest*).
+
+De labels `ANWOR Official` en `ANWOR Verified` zijn beoordelingen, **geen overdracht van eigendom**. Ze gelden ook niet automatisch voor gewijzigde modules of latere versies.
 
 <!-- section: licensing -->
-## Licenties en eigendom
+## Van wie blijft de code?
 
-Externe auteurs behouden rechten op originele onafhankelijke modules en kiezen
-gratis, commerciële, proprietary of open-sourcedistributie binnen hun rechten.
-Bijdragen die in deze gedeelde Developer Kit worden aanvaard vallen onder
-Apache-2.0 en gebruiken DCO 1.1. Er is geen CLA. De codegrant omvat geen
-Ivy/ANWOR-trademarks of badges.
+**Je eigen zelfstandige module blijft van jou.** Als externe auteur kies je zelf of je die gratis, commercieel, gesloten (*proprietary*) of open source aanbiedt, voor zover je daar de rechten voor hebt.
+
+**Code die wordt aanvaard als bijdrage aan deze gedeelde Developer Kit valt onder Apache-2.0.** Hiervoor gebruiken we DCO 1.1; een afzonderlijke Contributor License Agreement (**CLA**) is niet vereist.
+
+De code-licentie geeft **geen** gebruiksrechten op de namen, logo's, handelsmerken of officiële badges van Ivy of ANWOR. Zie [LICENSE](../../../LICENSE) en [DCO](../../../DCO).
 
 <!-- section: rewards -->
-## Beloningen
+## Erkenning en beloningen
 
-ANWOR kan afzonderlijk erkenning, credits, betaling of een andere beloning
-afspreken. Er is geen automatisch recht en geen bijdrage belooft vergoeding.
+ANWOR kan per bijdrage afzonderlijk erkenning, credits, een betaling of een andere beloning afspreken. Dat is geen automatische vergoeding: het indienen of aanvaarden van een bijdrage schept op zichzelf geen recht op betaling.
 
 <!-- section: bilingual -->
-## Regel voor tweetalige documentatie
+## Documentatie in twee talen
 
-Elke wijziging aan mensgerichte publieke documentatie moet in dezelfde PR het
-overeenkomstige `en`- en `nl`-bestand bijwerken, paritymetadata en sectie-ID's
-gelijk houden en uitvoerbare codeblokken behouden. CI weigert ontbrekende
-tegenhangers, verschillende secties, commandodrift en kapotte interne links.
+We willen dat Nederlandstalige en Engelstalige ontwikkelaars dezelfde informatie krijgen.
+
+Wijzig je publieke documentatie voor mensen? Pas dan **in dezelfde PR** zowel het `nl`- als het overeenkomstige `en`-bestand aan. Houd de interne paritymetadata en sectie-ID's gelijk en behoud werkende codevoorbeelden.
+
+De automatische CI-controle weigert ontbrekende vertalingen, niet-overeenkomende secties, verschillen in commando's (*command drift*) en kapotte interne links.
