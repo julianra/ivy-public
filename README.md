@@ -8,7 +8,7 @@ controle van de gebruiker.
 Ivy is a local-first capability platform for modular software systems that
 remain under the user's control.
 
-> **Private launch candidate / Private lanceringskandidaat**
+> **Public Developer Preview / Publieke ontwikkelaarspreview**
 >
 > Developer preview; not production-ready; not the complete Ivy runtime.
 > Developerpreview; niet productierijp; niet de volledige Ivy-runtime.
