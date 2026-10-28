@@ -14,7 +14,7 @@ Deze pagina scheidt **privé ontwikkeld**, **publiek experimenteel**, **gepland*
 ## Privé geïmplementeerd
 
 Het private pre-1.0-platform bevat Core, Core UI, Prism, Bridge, Vault, Hooman,
-Flow, Pulse, Agenda, BookMe, SDK's, ondertekende lokale packages en uitgebreide
+Flow, Pulse, Kairo, BookMe, SDK's, ondertekende lokale packages en uitgebreide
 failuregerichte tests. Dit bewijst development, niet een publiek ondersteunde
 release.
 

@@ -57,10 +57,10 @@ flowchart LR
     External["External system"] --> Bridge["Bridge · network boundary"]
     Prism --> Core["Core · registry, grants, lifecycle, audit"]
     Bridge --> Core
-    Core --> Agenda["Agenda"]
+    Core --> Kairo["Kairo"]
     Core --> Pulse["Pulse"]
     Core --> Flow["Flow"]
-    Agenda --> Vault["Vault · storage"]
+    Kairo --> Vault["Vault · storage"]
     Pulse --> Vault
     Flow --> Vault
 ```
@@ -71,7 +71,7 @@ flowchart LR
 - **Prism** composes generic user experiences and declarative widgets.
 - **Bridge** is the controlled external network and channel boundary.
 - **Vault** provides durable local storage capabilities.
-- Domain modules such as Agenda and Pulse own their domain semantics.
+- Domain modules such as Kairo and Pulse own their domain semantics.
 
 Consumers invoke capability IDs, not hard-coded module IDs. One installed owner
 may control a capability domain. The development simulator demonstrates this
@@ -109,7 +109,7 @@ additional domain modules.
 
 - Pulse time events can trigger a Flow routine; production integration exists
   privately, while public packaging is still planned.
-- Agenda availability can support BookMe booking decisions; public reference
+- Kairo availability can support BookMe booking decisions; public reference
   source is not yet released.
 - An external maker could provide an ESP32 capability through a reviewed module;
   the hardware adapter and public runtime bridge are planned.

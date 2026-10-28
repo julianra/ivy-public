@@ -67,6 +67,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Reject private paths and key material
+        env:
+          IVY_PUBLIC_HISTORY_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: ./scripts/repository-safety.sh
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v2

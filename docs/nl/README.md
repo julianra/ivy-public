@@ -60,10 +60,10 @@ flowchart LR
     External["Extern systeem"] --> Bridge["Bridge · netwerkgrens"]
     Prism --> Core["Core · register, grants, lifecycle, audit"]
     Bridge --> Core
-    Core --> Agenda["Agenda"]
+    Core --> Kairo["Kairo"]
     Core --> Pulse["Pulse"]
     Core --> Flow["Flow"]
-    Agenda --> Vault["Vault · opslag"]
+    Kairo --> Vault["Vault · opslag"]
     Pulse --> Vault
     Flow --> Vault
 ```
@@ -74,7 +74,7 @@ flowchart LR
 - **Prism** stelt generieke gebruikerservaringen en declaratieve widgets samen.
 - **Bridge** is de gecontroleerde externe netwerk- en kanaalgrens.
 - **Vault** levert duurzame lokale opslagcapabilities.
-- Domeinmodules zoals Agenda en Pulse bezitten hun domeinsemantiek.
+- Domeinmodules zoals Kairo en Pulse bezitten hun domeinsemantiek.
 
 Consumers roepen capability-ID's aan, geen hardgecodeerde module-ID's. Eén
 geïnstalleerde eigenaar mag een capabilitydomein beheren. De development
@@ -113,7 +113,7 @@ aanvullende domeinmodules.
 
 - Pulse-tijdgebeurtenissen kunnen een Flow-routine starten; productie-integratie
   bestaat privé, terwijl publieke packaging nog gepland is.
-- Agenda-beschikbaarheid kan BookMe-boekingsbeslissingen ondersteunen; publieke
+- Kairo-beschikbaarheid kan BookMe-boekingsbeslissingen ondersteunen; publieke
   referentiebroncode is nog niet vrijgegeven.
 - Een externe maker kan een ESP32-capability aanbieden via een gereviewde module;
   de hardwareadapter en publieke runtimebridge zijn gepland.

@@ -23,7 +23,7 @@ This table distinguishes public development code from components that must remai
 |---|---|---|---|
 | Core / Core UI | Architecture only; no source code | Intentionally excluded | Proprietary |
 | Bridge / Vault / Hooman / Flow | Concepts only, pending separate review | Not in repository | System licensing pending |
-| Agenda / Pulse / BookMe | Use cases and explanations; possible later reference material | Not in repository | Classification/licensing pending |
+| Kairo / Pulse / BookMe | Use cases and explanations; possible later reference material | Not in repository | Classification/licensing pending |
 | Rust/Dart Developer Kit | Independently authored public developer tools | Builds and tests independently | Apache-2.0 |
 | Manifest and protobuf contracts | Developer-facing public subset | Schema and semantic tests | Apache-2.0 |
 | CLI, widget preview and examples | Public development and testing tools | Build and test independently | Apache-2.0 |

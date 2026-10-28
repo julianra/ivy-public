@@ -49,7 +49,7 @@ This illustrates the architecture; it does not claim that this exact example is 
 | Bridge | Controlled boundary for external networks and communication channels | No; documented only |
 | Vault | Durable local storage accessible through capabilities | No; contracts described |
 | Flow | Routines and automations, including retries and approvals | No; private implementation |
-| Agenda / Pulse / BookMe | Domain-specific functionality, such as appointments and bookings | No; status and use cases only |
+| Kairo / Pulse / BookMe | Domain-specific functionality, such as appointments and bookings | No; status and use cases only |
 | Developer Kit | Public contracts, simulator, tools and developer examples | Yes; experimental |
 
 The Developer Kit is therefore a **development and verification environment**, not a public copy of Core.
