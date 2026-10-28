@@ -19,10 +19,10 @@ Status labels mean **Implemented privately**, **Experimental publicly** or
 ```mermaid
 flowchart LR
     Person["Person"] --> Prism["Prism widget"]
-    Prism --> Agenda["Agenda · availability"]
-    Booking["BookMe"] --> Agenda
-    Agenda --> Vault["Vault · durable records"]
-    Agenda --> Event["booking confirmed event"]
+    Prism --> Kairo["Kairo · availability"]
+    Booking["BookMe"] --> Kairo
+    Kairo --> Vault["Vault · durable records"]
+    Kairo --> Event["booking confirmed event"]
     Event --> Flow["Flow routine"]
     Flow --> Bridge["Bridge delivery"]
 ```
@@ -42,9 +42,9 @@ a time event.
 and end-user workflow are planned.
 
 <!-- section: booking -->
-## Agenda and bookings
+## Kairo and bookings
 
-**Modules:** Agenda, BookMe, Hooman, Bridge and Vault.
+**Modules:** Kairo, BookMe, Hooman, Bridge and Vault.
 **Capabilities:** availability, free/busy, booking, identity attestation,
 delivery and storage.
 **Outcome:** a booking surface can request allowed availability without owning

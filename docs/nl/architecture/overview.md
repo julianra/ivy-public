@@ -49,7 +49,7 @@ Dit is een illustratie van het ontwerp, geen claim dat dit specifieke voorbeeld 
 | Bridge | Bewaakte grens voor externe netwerken en communicatiekanalen | Nee; alleen gedocumenteerd |
 | Vault | Duurzame lokale opslag die modules via capabilities kunnen gebruiken | Nee; contracten beschreven |
 | Flow | Routines en automatiseringen, waaronder opnieuw proberen en goedkeuringen | Nee; private implementatie |
-| Agenda / Pulse / BookMe | Gespecialiseerde domeinfunctionaliteit, zoals afspraken en boekingen | Nee; alleen status en toepassingen beschreven |
+| Kairo / Pulse / BookMe | Gespecialiseerde domeinfunctionaliteit, zoals afspraken en boekingen | Nee; alleen status en toepassingen beschreven |
 | Developer Kit | Publieke contracten, simulator, hulpmiddelen en voorbeelden voor ontwikkelaars | Ja; experimenteel |
 
 De Developer Kit is dus een **oefen- en controleomgeving voor ontwikkelaars**, niet een publieke kopie van Core.

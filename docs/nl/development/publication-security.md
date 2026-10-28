@@ -23,7 +23,7 @@ De volgende tabel maakt onderscheid tussen publieke ontwikkelcode en onderdelen 
 |---|---|---|---|
 | Core / Core UI | Alleen architectuuruitleg, geen broncode | Bewust niet meegeleverd | Proprietary |
 | Bridge / Vault / Hooman / Flow | Alleen concepten, na afzonderlijke review | Niet in deze repository | Systeemlicentie nog te bepalen |
-| Agenda / Pulse / BookMe | Uitleg en toepassingsvoorbeelden; eventueel later referentiemateriaal | Niet in deze repository | Classificatie/licentie nog te bepalen |
+| Kairo / Pulse / BookMe | Uitleg en toepassingsvoorbeelden; eventueel later referentiemateriaal | Niet in deze repository | Classificatie/licentie nog te bepalen |
 | Rust/Dart Developer Kit | Onafhankelijk geschreven publieke ontwikkeltools | Bouwt en test zelfstandig | Apache-2.0 |
 | Manifest- en protobufcontracten | Developergerichte publieke subset | Schema- en semantische tests | Apache-2.0 |
 | CLI, widgetpreview en voorbeelden | Publieke hulpmiddelen om te ontwikkelen en testen | Bouwen en testen zelfstandig | Apache-2.0 |

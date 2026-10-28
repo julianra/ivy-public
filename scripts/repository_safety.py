@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import subprocess
 import sys
@@ -92,8 +93,8 @@ def scan_media(failures: list[str]) -> None:
             failures.append(f"current:{path.relative_to(ROOT)}: active or remote SVG content")
 
 
-def scan_commit_emails(failures: list[str]) -> None:
-    for line in git("log", "HEAD", "--format=%H%x09%ae%x09%ce").splitlines():
+def scan_commit_emails(history_head: str, failures: list[str]) -> None:
+    for line in git("log", history_head, "--format=%H%x09%ae%x09%ce").splitlines():
         commit, author_email, committer_email = line.split("\t")
         if author_email != EXPECTED_COMMIT_EMAIL:
             failures.append(f"{commit[:12]}: unexpected author email {author_email}")
@@ -106,6 +107,7 @@ def scan_commit_emails(failures: list[str]) -> None:
 
 def main() -> int:
     failures: list[str] = []
+    history_head = os.environ.get("IVY_PUBLIC_HISTORY_HEAD", "HEAD")
     current = {
         path
         for path in git("ls-files", "--cached", "--others", "--exclude-standard").splitlines()
@@ -117,10 +119,10 @@ def main() -> int:
             failures.append(f"current:{path}: {reason}")
         else:
             scan_blob("current", path, (ROOT / path).read_bytes(), failures)
-    for commit in git("rev-list", "HEAD").splitlines():
+    for commit in git("rev-list", history_head).splitlines():
         scan_tree(commit, failures)
     scan_media(failures)
-    scan_commit_emails(failures)
+    scan_commit_emails(history_head, failures)
     if failures:
         print("repository safety checks failed:", file=sys.stderr)
         for item in sorted(set(failures)):

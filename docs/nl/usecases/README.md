@@ -19,10 +19,10 @@ Statuslabels betekenen **Privé geïmplementeerd**, **Publiek experimenteel** of
 ```mermaid
 flowchart LR
     Person["Persoon"] --> Prism["Prism-widget"]
-    Prism --> Agenda["Agenda · beschikbaarheid"]
-    Booking["BookMe"] --> Agenda
-    Agenda --> Vault["Vault · duurzame records"]
-    Agenda --> Event["boeking-bevestigd-event"]
+    Prism --> Kairo["Kairo · beschikbaarheid"]
+    Booking["BookMe"] --> Kairo
+    Kairo --> Vault["Vault · duurzame records"]
+    Kairo --> Event["boeking-bevestigd-event"]
     Event --> Flow["Flow-routine"]
     Flow --> Bridge["Bridge-delivery"]
 ```
@@ -41,9 +41,9 @@ gereviewde routine starten.
 eindgebruikersflow zijn gepland.
 
 <!-- section: booking -->
-## Agenda en boekingen
+## Kairo en boekingen
 
-**Modules:** Agenda, BookMe, Hooman, Bridge en Vault.
+**Modules:** Kairo, BookMe, Hooman, Bridge en Vault.
 **Capabilities:** availability, free/busy, booking, identity attestation,
 delivery en storage.
 **Resultaat:** een boekingsoppervlak kan toegelaten beschikbaarheid opvragen
